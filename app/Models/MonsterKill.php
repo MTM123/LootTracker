@@ -24,6 +24,8 @@ class MonsterKill extends Model
         'user_id', 'monster_id', 'loot'
     ];
 
+    protected $casts = ['loot' => 'json'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -36,6 +38,6 @@ class MonsterKill extends Model
 
     public function items()
     {
-        return $this->hasMany(Item::class, 'loot->item_id');
+        return $this->hasManyJson(Item::class, 'id', 'loot->item_id');
     }
 }

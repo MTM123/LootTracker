@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 
 /**
  * App\Models\Item
@@ -14,7 +15,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Item extends Model
 {
+    use HasJsonRelationships;
+
     protected $fillable = [
         'price', 'name'
     ];
+
+    public function kills()
+    {
+        return $this->hasManyJson(MonsterKill::class, 'loot->item_id', 'id');
+    }
 }
