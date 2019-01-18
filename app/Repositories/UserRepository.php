@@ -114,10 +114,12 @@ class UserRepository
      */
     protected function getItemByName($params, $create = false)
     {
-        $item = Item::where('name', $params->item_name)->first();
+        $item = Item::where('item_id', $params->item_id)
+            ->where('name', $params->item_name)->first();
 
         if ($create && $item == null) {
             return Item::create([
+                'item_id' => $params->item_id,
                 'name' => $params->item_name
             ]);
         }
