@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 
+/**
+ * App\Models\MonsterKill
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Item[] $items
+ * @property-read \App\Models\Monster $monster
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MonsterKill newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MonsterKill newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MonsterKill query()
+ * @mixin \Eloquent
+ */
 class MonsterKill extends Model
 {
     use HasJsonRelationships;
