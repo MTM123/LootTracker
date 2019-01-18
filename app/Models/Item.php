@@ -18,11 +18,11 @@ class Item extends Model
     use HasJsonRelationships;
 
     protected $fillable = [
-        'price', 'name'
+        'item_id', 'price', 'name'
     ];
 
     public function kills()
     {
-        return $this->hasManyJson(MonsterKill::class, 'loot->item_id', 'id');
+        return $this->hasManyJson(MonsterKill::class, 'loot[]->item_id', 'id');
     }
 }

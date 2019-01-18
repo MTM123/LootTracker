@@ -38,6 +38,6 @@ class MonsterKill extends Model
 
     public function items()
     {
-        return $this->hasManyJson(Item::class, 'id', 'loot->item_id');
+        return $this->belongsToJson(Item::class, 'loot[]->item_id');
     }
 }
