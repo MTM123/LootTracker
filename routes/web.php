@@ -14,3 +14,7 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'users', 'namespace' => 'Users'], function() {
+    Route::get('{user}', 'UserController@view')->name('view');
+});
