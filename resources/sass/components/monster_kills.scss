@@ -1,9 +1,69 @@
 .user-monster-kill {
-  margin-bottom: 10px;
-  flaot:left;
+  .card-header {
+    padding: 5px;
+  }
 
-  .card-body {
-    height: 22px;
-    padding: 2px;
+  li {
+    .favme.active {
+      visibility: visible !important;
+    }
+
+    &:hover {
+      .fav-btn {
+        visibility: visible;
+        transition: none;
+      }
+    }
+  }
+}
+
+.fav-btn {
+  display:inline-block;
+  visibility: hidden;
+}
+
+
+@keyframes favme-anime {
+  0%   {
+    opacity: 1;
+    -webkit-text-stroke-color: transparent;
+  }
+  25%	 {
+    opacity:.6;
+    color: #FFF;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: $yellow;
+  }
+  75%	 {
+    opacity:.6;
+    color: #FFF;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: $yellow;
+  }
+  100% {
+    opacity: 1;
+    -webkit-text-stroke-color: transparent;
+  }
+}
+
+
+.favme {
+  display:block;
+
+  cursor: pointer;
+  box-shadow: none;
+  color: #CBCDCE;
+  margin: 0;
+
+  text-shadow: 0px 0px 2px #3e3e3e;
+
+  &.active {
+    color: $yellow;
+  }
+  &:hover {
+    animation: favme-hover .3s infinite alternate;
+  }
+  &.is_animating {
+    animation: favme-anime .3s;
   }
 }

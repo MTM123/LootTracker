@@ -30,12 +30,17 @@
 
                         @if($new == true)
                             <div class="card user-monster-kill">
-                                <div class="card-body" >
-                                    <span class="text-center">{{ $lastLetter }}</span>
+                                <div class="card-header text-center" >
+                                    <strong>{{ $lastLetter }}</strong>
                                 </div>
                                 <ul class="list-group list-group-flush">
                         @endif
-                                    <li class="list-group-item">{{ $kill->name }} ({{ $kill->level }}) - {{ $kill->count }}</li>
+                                    <li class="list-group-item">
+                                        <div class="fav-btn">
+                                            <i class="favme fa fa-star" data-mid="{{ $kill->id }}" aria-hidden="true"></i>
+                                        </div>
+                                        {{ $kill->name }} ({{ $kill->level }}) <span class="badge badge-primary float-right">{{ $kill->count }}</span>
+                                    </li>
                         @if(@substr($list[$id+1]->name, 0, 1) != $currentLetter)
                                 </ul>
                             </div>

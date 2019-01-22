@@ -31,3 +31,43 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app'
 });
+
+
+// Favorite Button - Heart
+jQuery('.favme').click(function() {
+    jQuery(this).toggleClass('active');
+    saveFavoriteMonsters();
+});
+
+/* when a user clicks, toggle the 'is-animating' class */
+jQuery(".favme").on('click touchstart', function(){
+    jQuery(this).toggleClass('is_animating');
+    saveFavoriteMonsters();
+});
+
+/*when the animation is over, remove the class*/
+jQuery(".favme").on('animationend', function(){
+    jQuery(this).toggleClass('is_animating');
+});
+
+function loadFavoriteMonsters(){
+    var stars = JSON.parse(window.localStorage.getItem('favorite_monsters'));
+    for(var k in stars) {
+        if(stars[k].active){
+            jQuery('.favme[data-mid="'+stars[k].id+'"]').addClass("active");
+        }
+    }
+}
+
+
+function saveFavoriteMonsters(){
+    var stars = [];
+    jQuery('.favme[data-mid]').each(function( index ) {
+        stars.push({id:$( this ).data("mid"), active:$( this ).hasClass("active")});
+    });
+    window.localStorage.setItem('favorite_monsters', JSON.stringify(stars));
+}
+
+$(function() {
+    loadFavoriteMonsters();
+});
