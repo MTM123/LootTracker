@@ -3,11 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
+                    <div class="container">
+                        <div class="card-columns">
                     @php
                         $lastLetter = "";
                         $new = false;
@@ -27,7 +29,7 @@
                         @endif
 
                         @if($new == true)
-                            <div class="card col-6 user-monster-kill">
+                            <div class="card user-monster-kill">
                                 <div class="card-body" >
                                     <span class="text-center">{{ $lastLetter }}</span>
                                 </div>
@@ -44,6 +46,8 @@
                             $new = false;
                         @endphp
                     @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
