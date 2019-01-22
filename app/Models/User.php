@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\User
@@ -53,5 +54,16 @@ class User extends Authenticatable
     public function kills()
     {
         return $this->hasMany(MonsterKill::class);
+    }
+
+    public function sortedKills()
+    {
+        return $this->kills()
+            ->select('*', DB::raw('count(*) as count'))
+            ->leftJoin('monsters', 'monster_kills.monster_id', '=', 'monsters.id')
+            ->orderBy('monsters.name', 'asc')
+            ->orderBy('monsters.level', 'asc')
+            ->groupBy('monster_kills.monster_id')
+            ->get();
     }
 }

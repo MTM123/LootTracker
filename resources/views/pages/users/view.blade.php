@@ -8,8 +8,8 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @foreach($user->kills as $kill)
-                        {{ $kill->monster->name }} ({{ $kill->monster->level }})<br>
+                    @foreach($user->sortedKills() as $kill)
+                        {{ $kill->name }} ({{ $kill->level }}) - {{ $kill->count }}<br>
                     @endforeach
                 </div>
             </div>
