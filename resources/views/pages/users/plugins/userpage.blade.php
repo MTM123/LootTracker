@@ -8,6 +8,9 @@
                     @foreach($user->getLastKills(5) as $id => $kill)
                         <li class="list-group-item">
                             {{ $kill->monster->name }} ({{ $kill->monster->level }})
+                            @foreach($kill->items as $item)
+                                @include('pages.users.plugins.item', $item)
+                            @endforeach
                         </li>
                     @endforeach
                 </ul>

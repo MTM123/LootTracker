@@ -110,7 +110,7 @@ class UserRepository
         return MonsterKill::create([
             'user_id' => $user->id,
             'monster_id' => $monster->id,
-            'loot' => json_encode($loot)
+            'loot' => $loot
         ]);
     }
 

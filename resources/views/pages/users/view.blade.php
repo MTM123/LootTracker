@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="col-md-3 monster-side-menu">
-            @yield('filter')
+            {{--@yield('filter')--}}
             @yield('lastkills')
         </div>
 
