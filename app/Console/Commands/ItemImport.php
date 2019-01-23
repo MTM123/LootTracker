@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Item;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 
 class ItemImport extends Command
@@ -36,25 +37,29 @@ class ItemImport extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function handle()
     {
         $this->comment("Reading import file");
-        $list = Storage::disk('local')->get('list.txt');
-        $re = '/(\d+),"(.*)"/m';
-        preg_match_all($re, $list, $matches, PREG_SET_ORDER, 0);
-        $this->comment("File parsed with '".count($matches)."' items");
+        try {
+            $list = Storage::disk('local')->get('list.txt');
+            $re = '/(\d+),"(.*)"/m';
+            preg_match_all($re, $list, $matches, PREG_SET_ORDER, 0);
+            $this->comment("File parsed with '".count($matches)."' items");
 
-        Item::query()->truncate();
-        foreach ($matches as $id => $value){
-            Item::create([
-                'item_id' => $value[1],
-                'name' => $value[2],
-            ]);
-            $this->comment("Importing: ".$value[1]. " => ".$value[2]);
+            Item::query()->truncate();
+            foreach ($matches as $id => $value){
+                Item::create([
+                    'item_id' => $value[1],
+                    'name' => $value[2],
+                ]);
+                $this->comment("Importing: ".$value[1]. " => ".$value[2]);
+            }
+            $this->comment("Importing complete!");
+            Storage::disk('local')->move('list.txt','list.txt.lock');
+        } catch (FileNotFoundException $e) {
+            $this->comment("File not found: /storage/app/list.txt");
         }
-        $this->comment("Importing complete!");
-        Storage::disk('local')->move('list.txt','list.txt.lock');
+
     }
 }
