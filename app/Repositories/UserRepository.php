@@ -61,6 +61,14 @@ class UserRepository
      */
     protected function getMonster($params)
     {
+        //Monster name validator;
+        $regex = '/(.*)\((.*)\)/m';
+        preg_match_all($regex, $params->npc_name, $matches, PREG_SET_ORDER, 0);
+        if (count($matches) == 3){
+            $params->npc_name = trim($matches[1]);
+            $params->npc_level = trim($matches[2]);
+        }
+
         $monster = Monster::where('name', $params->npc_name);
 
         if (!empty($params->npc_level)) {
