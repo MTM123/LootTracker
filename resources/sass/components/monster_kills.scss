@@ -1,3 +1,9 @@
+@font-face {
+  font-family:"osrsfont";
+  src:url("../fonts/runescape_chat_font.eot?") format("eot"),url("../fonts/runescape_chat_font.woff") format("woff"),url("../fonts/runescape_chat_font.ttf") format("truetype"),url("../fonts/runescape_chat_font.svg#Runescape-Chat-Font") format("svg");
+  font-weight:normal;
+  font-style:normal;
+}
 .user-monster-kill {
   .card-header {
     padding: 5px;
@@ -17,6 +23,27 @@
         visibility: visible;
         transition: none;
       }
+    }
+  }
+}
+
+.list-group-item {
+  .item {
+    width: 32px;
+    height: 32px;
+    float: left;
+
+    span {
+      font-family: 'osrsfont';
+      font-size: 12px;
+      position: absolute;
+      color: #ffff00;
+      text-shadow: 1px 1px 0px #000000;
+      margin-top: -5px;
+    }
+
+    img {
+
     }
   }
 }

@@ -70,4 +70,5 @@ function saveFavoriteMonsters(){
 
 $(function() {
     loadFavoriteMonsters();
+    $('[data-toggle="tooltip"]').tooltip();
 });
