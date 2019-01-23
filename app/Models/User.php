@@ -56,6 +56,13 @@ class User extends Authenticatable
         return $this->hasMany(MonsterKill::class);
     }
 
+    public function getLastKills($amount){
+        return $this->kills()
+            ->orderBy('id', 'desc')
+            ->limit($amount)
+            ->get();
+    }
+
     public function sortedKills()
     {
         return $this->kills()
