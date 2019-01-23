@@ -57,7 +57,7 @@ class User extends Authenticatable
     }
 
     public function getLastKills($amount){
-        return $this->kills()
+        return $this->kills()->with(['items'])
             ->orderBy('id', 'desc')
             ->limit($amount)
             ->get();
