@@ -3,6 +3,10 @@
     padding: 5px;
   }
 
+  .badge {
+    margin-top: 4px;
+  }
+
   li {
     .favme.active {
       visibility: visible !important;
@@ -14,6 +18,12 @@
         transition: none;
       }
     }
+  }
+}
+
+.monster-side-menu{
+  .card{
+    margin-bottom: 10px;
   }
 }
 

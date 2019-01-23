@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-9">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Monsters</div>
 
                 <div class="card-body">
                     <div class="container">
@@ -56,6 +56,28 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 monster-side-menu">
+            <div class="card">
+                <div class="card-header">Filter</div>
+
+                <div class="card-body">
+                    <div class="container">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Last 5 kills</div>
+
+                <div class="card-body">
+                    <div class="container">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
