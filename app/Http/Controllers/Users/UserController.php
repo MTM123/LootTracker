@@ -32,6 +32,8 @@ class UserController extends Controller
             abort(404);
         }
 
+        $monsters = array_unique($monsters);
+
         $user = User::where('key', $key)->firstOrFail();
 
         $user->load(['kills' => function($query) use ($monsters) {

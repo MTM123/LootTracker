@@ -35,7 +35,7 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                         @endif
-                                    <li class="list-group-item">
+                                    <li class="list-group-item" data-monsterid="{{ $kill->monster->id }}">
                                         <div class="fav-btn">
                                             <i class="favme fa fa-star" data-mid="{{ $kill->id }}" aria-hidden="true"></i>
                                         </div>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="col-md-3 monster-side-menu">
-            {{--@yield('filter')--}}
+            @yield('filter')
             @yield('lastkills')
         </div>
 

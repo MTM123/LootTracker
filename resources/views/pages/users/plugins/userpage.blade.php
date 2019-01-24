@@ -17,13 +17,14 @@
 @endsection
 
 @section('filter')
-    <div class="card">
+    <div class="card filter-get-drops">
         <div class="card-header">Filter</div>
 
         <div class="card-body">
-            <div class="container">
-
-            </div>
+            <ul class="filter-selected-list list-group list-group-flush">
+                Select monster!
+            </ul>
+            <button type="button" data-url="{{ route('users.drops', ['key' => $user->key]) }}" class="btn btn-outline-primary btn-block">Get drops</button>
         </div>
     </div>
 @endsection

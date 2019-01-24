@@ -50,7 +50,7 @@ jQuery(".favme").on('animationend', function(){
     jQuery(this).toggleClass('is_animating');
 });
 
-function loadFavoriteMonsters(){
+function loadFavoriteMonsters() {
     var stars = JSON.parse(window.localStorage.getItem('favorite_monsters'));
     for(var k in stars) {
         if(stars[k].active){
@@ -60,7 +60,7 @@ function loadFavoriteMonsters(){
 }
 
 
-function saveFavoriteMonsters(){
+function saveFavoriteMonsters() {
     var stars = [];
     jQuery('.favme[data-mid]').each(function( index ) {
         stars.push({id:$( this ).data("mid"), active:$( this ).hasClass("active")});
@@ -68,7 +68,35 @@ function saveFavoriteMonsters(){
     window.localStorage.setItem('favorite_monsters', JSON.stringify(stars));
 }
 
+function updateFilter() {
+    $(".filter-selected-list").html("");
+    $(".select-filter").each(function( index ) {
+        $(".filter-selected-list").append("<li class=\"list-group-item\">"+$( this ).find(".monster-name").text()+"</li>")
+    });
+}
+
+function getaFilterList() {
+    var list = [];
+    $(".select-filter").each(function( index ) {
+        list.push($(this).data("monsterid"));
+    });
+    return list;
+}
+
 $(function() {
     loadFavoriteMonsters();
     $('[data-toggle="tooltip"]').tooltip();
+
+    $(".user-monster-kill .list-group-item").click(function(event){
+        if(!$(event.target).hasClass("favme")) {
+            $(this).toggleClass("select-filter");
+            updateFilter();
+        }
+    });
+
+    $(".filter-get-drops button").click(function(){
+        location.href = $(this).data("url")+"/"+(getaFilterList().join("-"));
+    });
+
+
 });

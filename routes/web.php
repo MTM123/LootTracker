@@ -17,7 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'users', 'namespace' => 'Users'], function() {
     Route::get('{key}', 'UserController@view')->name('users.view');
-    Route::get('{key}/drops/{monsters}', 'UserController@drops')->name('users.drops');
+    Route::get('{key}/drops/{monsters?}', 'UserController@drops')->name('users.drops');
 
     Route::post('generate/key', 'UserController@generateKey')->name('generate.key');
 });

@@ -4,13 +4,23 @@
   font-weight:normal;
   font-style:normal;
 }
+
+body {
+  font-family: Verdana;
+  font-size: 12px;
+}
+
 .user-monster-kill {
-  .card-header {
+    .card-header {
     padding: 5px;
   }
 
   .badge {
     margin-top: 4px;
+  }
+
+  .select-filter {
+    background: #4aa0e6;
   }
 
   li {
@@ -32,6 +42,7 @@
     .monster-name {
       float: left;
       position: absolute;
+      padding-left: 3px;
     }
     .badge {
       position: absolute;
@@ -68,6 +79,20 @@
   .last-5kills {
     .monster-name {
       border-bottom: 1px solid $gray;
+    }
+  }
+
+  .filter-get-drops {
+    .filter-selected-list {
+      li {
+        padding: 1px 0;
+        text-align: center;
+        &:last-child {
+          border-bottom: 0;
+          margin-bottom: 0;
+        }
+      }
+
     }
   }
 }
