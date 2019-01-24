@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token'
+        'name', 'key', 'email', 'password', 'api_token'
     ];
 
     /**
@@ -48,6 +48,7 @@ class User extends Authenticatable
 
         static::creating(function ($user) {
             $user->api_token = str_random(12);
+            $user->key = str_random(7);
         });
     }
 

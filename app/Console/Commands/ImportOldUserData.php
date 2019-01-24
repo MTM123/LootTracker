@@ -68,7 +68,7 @@ class ImportOldUserData extends Command
                         $monsterParam[0] = $ex[0];
                         $monsterParam[1] = $ex[1];
                     }
-                    $monster = $this->userRepository->getMonster((object)['npc_name' => $monsterParam[0], 'npc_level' => $monsterParam[1]]);
+                    $monster = $this->userRepository->getMonster((object)['npc_name' => $monsterParam[0], 'npc_level' => $monsterParam[1]], $userData);
                     MonsterKill::create([
                         'user_id' => $userData->id,
                         'monster_id' => $monster->id,

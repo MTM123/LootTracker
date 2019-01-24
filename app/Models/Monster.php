@@ -16,8 +16,13 @@ use Illuminate\Database\Eloquent\Model;
 class Monster extends Model
 {
     protected $fillable = [
-        'name', 'level'
+        'creator_id', 'name', 'level'
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function kills()
     {

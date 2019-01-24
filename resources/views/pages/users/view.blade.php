@@ -9,7 +9,6 @@
                 <div class="card-header">Monsters</div>
 
                 <div class="card-body">
-                    <div class="container">
                         <div class="card-columns">
                     @php
                         $lastLetter = "";
@@ -52,7 +51,6 @@
                             $new = false;
                         @endphp
                     @endforeach
-                        </div>
                     </div>
                 </div>
             </div>
