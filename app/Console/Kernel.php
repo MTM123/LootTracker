@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\ItemImport::class,
         Commands\FixDropLoot::class,
+        Commands\ImportOldUserData::class,
     ];
 
     /**
