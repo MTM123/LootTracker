@@ -90,6 +90,7 @@ $(function() {
     $(".user-monster-kill .list-group-item").click(function(event){
         if(!$(event.target).hasClass("favme")) {
             $(this).toggleClass("select-filter");
+            var notify = $.notify('<strong>Saving</strong> Do not close this page...', { allow_dismiss: false });
             updateFilter();
         }
     });
