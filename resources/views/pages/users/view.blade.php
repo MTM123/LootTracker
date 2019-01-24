@@ -39,7 +39,7 @@
                                         <div class="fav-btn">
                                             <i class="favme fa fa-star" data-mid="{{ $kill->id }}" aria-hidden="true"></i>
                                         </div>
-                                        {{ $kill->name }} ({{ $kill->level }}) <span class="badge badge-primary float-right">{{ $kill->count }}</span>
+                                        <span class="monster-name">{{ $kill->name }} ({{ $kill->level }})</span> <span class="badge badge-primary float-right">{{ $kill->count }}</span>
                                     </li>
                         @if(@substr($list[$id+1]->name, 0, 1) != $currentLetter)
                                 </ul>
