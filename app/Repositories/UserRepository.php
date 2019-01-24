@@ -21,6 +21,17 @@ class UserRepository
     }
 
     /**
+     * @param $name
+     * @param array $columns
+     *
+     * @return User|\Illuminate\Database\Eloquent\Model
+     */
+    public function getUserByName($name, $columns = ['*'])
+    {
+        return User::where('name', $name)->first($columns);
+    }
+
+    /**
      * @param User $user
      * @param $data
      *
@@ -59,14 +70,14 @@ class UserRepository
      *
      * @return Monster|\Illuminate\Database\Eloquent\Model
      */
-    protected function getMonster($params)
+    public function getMonster($params)
     {
         //Monster name validator;
         $regex = '/(.*)\((.*)\)/m';
         preg_match_all($regex, $params->npc_name, $matches, PREG_SET_ORDER, 0);
-        if (count($matches) == 3){
-            $params->npc_name = trim($matches[1]);
-            $params->npc_level = trim($matches[2]);
+        if (count($matches) >= 1){
+            $params->npc_name = trim($matches[0][1]);
+            $params->npc_level = trim($matches[0][2]);
         }
 
         $monster = Monster::where('name', $params->npc_name);
