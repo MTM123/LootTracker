@@ -14,7 +14,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "staudenmeir/eloquent-json-relations": "^1.1"
+        "staudenmeir/eloquent-json-relations": "^1.1",
+        "symfony/process": "^4.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
