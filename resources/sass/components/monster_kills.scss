@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: Verdana;
+  font-family: Helvetica, Verdana, "osrsfont";
   font-size: 12px;
 }
 
@@ -52,8 +52,15 @@ body {
 }
 
 .item {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  margin: 4px;
+  background: rgba(0,0,0,0.05);
+
+  &:hover {
+    background: rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
 
   span {
     font-family: 'osrsfont';
@@ -61,7 +68,8 @@ body {
     position: absolute;
     color: #ffff00;
     text-shadow: 1px 1px 0px #000000;
-    margin-top: -5px;
+    margin-top: -4px;
+    margin-left: 1px;
   }
 
   img {
@@ -81,8 +89,14 @@ body {
 
     .monster-drops {
       display: flex;
-      justify-content: space-around;
+      justify-content: flex-start;
     }
+  }
+
+  .btn-sm {
+    padding: 0px 2px;
+    line-height: 1.2;
+    border-radius: 0.2rem;
   }
 
   .filter-get-drops {
