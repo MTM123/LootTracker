@@ -37,7 +37,7 @@ body {
   }
 
   .list-group-item {
-    padding: 1px 4px;
+    padding: 3px 4px;
 
     .monster-name {
       float: left;
@@ -54,8 +54,6 @@ body {
 .item {
   width: 32px;
   height: 32px;
-  float: left;
-  left: 20px;
 
   span {
     font-family: 'osrsfont';
@@ -80,6 +78,11 @@ body {
     .monster-name {
       border-bottom: 1px solid $gray;
     }
+
+    .monster-drops {
+      display: flex;
+      justify-content: space-around;
+    }
   }
 
   .filter-get-drops {
@@ -92,7 +95,6 @@ body {
           margin-bottom: 0;
         }
       }
-
     }
   }
 }
@@ -100,6 +102,12 @@ body {
 .fav-btn {
   display:inline-block;
   visibility: hidden;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+[data-notify="container"] {
+  width: auto !important;
 }
 
 

@@ -88,15 +88,33 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
 
     $(".user-monster-kill .list-group-item").click(function(event){
+        var selectedMonsters = $(".select-filter").length;
+
+        if(selectedMonsters >= 5 && !$(event.target).hasClass("select-filter")){
+            $.notify('You can\'t select more than 5', { allow_dismiss: false,timer: 1000,placement: {from: "bottom",align: "right"} });
+            return;
+        }
+
         if(!$(event.target).hasClass("favme")) {
             $(this).toggleClass("select-filter");
-            var notify = $.notify('<strong>Saving</strong> Do not close this page...', { allow_dismiss: false });
             updateFilter();
+        }
+
+        if($(".select-filter").length === 0){
+            $(".btn-clear-filter").hide();
+        }else{
+            $(".btn-clear-filter").show();
         }
     });
 
-    $(".filter-get-drops button").click(function(){
+    $(".btn-go-to-drops").click(function(){
         location.href = $(this).data("url")+"/"+(getaFilterList().join("-"));
+    });
+
+    $(".btn-clear-filter").click(function(){
+        $(this).hide();
+        $(".select-filter").removeClass("select-filter");
+        updateFilter();
     });
 
 

@@ -35,7 +35,7 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                         @endif
-                                    <li class="list-group-item" data-monsterid="{{ $kill->monster->id }}">
+                                    <li class="list-group-item" data-monsterid="{{ $kill->monster_id }}">
                                         <div class="fav-btn">
                                             <i class="favme fa fa-star" data-mid="{{ $kill->id }}" aria-hidden="true"></i>
                                         </div>
