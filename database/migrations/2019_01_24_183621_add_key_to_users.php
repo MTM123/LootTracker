@@ -14,7 +14,7 @@ class AddKeyToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('key', 10)->unique()->after('name');
+            $table->string('key', 10)->after('name');
         });
     }
 
@@ -26,7 +26,6 @@ class AddKeyToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique('users_key_unique');
             $table->dropColumn('key');
         });
     }
