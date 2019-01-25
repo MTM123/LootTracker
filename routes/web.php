@@ -14,8 +14,8 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::post('deploy', 'DeployController@deploy');
-Route::get('deploy', 'DeployController@deploy');
+//Route::post('deploy', 'DeployController@deploy');
+//Route::get('deploy', 'DeployController@deploy');
 
 Route::group(['prefix' => 'users', 'namespace' => 'Users'], function() {
     Route::get('{key}', 'UserController@view')->name('users.view');
