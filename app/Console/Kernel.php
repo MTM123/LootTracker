@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\ItemImport::class,
         Commands\FixDropLoot::class,
         Commands\ImportOldUserData::class,
+        Commands\UpdatePrices::class,
     ];
 
     /**

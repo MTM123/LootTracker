@@ -168,3 +168,17 @@ body {
     animation: favme-anime .3s;
   }
 }
+
+.price-check-loot {
+  .item_container {
+    display: inline-block;
+    width: 75.2px;
+    text-align: center;
+    .price-values {
+
+    }
+    .item {
+      display: inline-block;
+    }
+  }
+}

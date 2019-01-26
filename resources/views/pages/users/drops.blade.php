@@ -1,6 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+<?php
+$killKc = count($user->kills);
+$loot = [];
+$stackedLoot = [];
+
+foreach ($user->kills as $kills) {
+    foreach ($kills->items as $items) {
+        $loot[] = ['id' => $items->item_id, 'price' => $items->price, 'name' => $items->name, 'qty' => $items->pivot->item_qty];
+        //Stack loot
+        if (array_key_exists($items->id, $stackedLoot)) {
+            $stackedLoot[$items->id]->qty += $items->pivot->item_qty;
+            $stackedLoot[$items->id]->drop_times += 1;
+        }else{
+            $stackedLoot[$items->id] = new \stdClass();
+            $stackedLoot[$items->id]->id = $items->item_id;
+            $stackedLoot[$items->id]->price = $items->price;
+            $stackedLoot[$items->id]->name = $items->name;
+            $stackedLoot[$items->id]->qty = $items->pivot->item_qty;
+            $stackedLoot[$items->id]->drop_times = 1;
+        }
+    }
+}
+
+?>
+
+
 <div class="container">
     <div class="row justify-content-center">
 
@@ -15,26 +41,20 @@
 
             <div class="card mb-3">
                 <div class="card-header">Monster list</div>
-                    <?php
-                    $killKc = count($user->kills);
-                    $loot = [];
+                <div class="card-body price-check-loot">
 
-                    foreach ($user->kills as $kills) {
-                        foreach ($kills->items as $items) {
-                            $loot[] = ['id' => $items->id, 'price' => $items->price, 'name' => $items->name, 'qty' => $items->pivot->item_qty];
-                        }
-                    }
-
-                    dd($loot);
-
-                    echo $killKc;
-                    //dd($user->kills->items)
-
-
-
-                //dd($user->kills[0]->items[0]->price);
-                ?>
-                <div class="card-body">
+                    @foreach($stackedLoot as $id => $item)
+                        <div class="item_container">
+                            <div class="item" data-toggle="tooltip" data-placement="bottom" title="{{ $item->name }}">
+                                <span>{{ $item->qty }}</span>
+                                <img src="{{ env('CDN_URL') }}/media/{{ $item->id }}.png" />
+                            </div>
+                            <div class="price-values">
+                                {{ $item->qty }} x {{ $item->price }}<br>
+                                = {{ number_format($item->qty*$item->price,0,".", ",") }}
+                            </div>
+                        </div>
+                    @endforeach
 
                 </div>
             </div>
