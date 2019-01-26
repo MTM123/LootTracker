@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('./chart');
 
 window.Vue = require('vue');
 
@@ -118,4 +119,71 @@ $(function() {
     });
 
 
+});
+function rgb2hex(r, g, b) {
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
+}
+
+
+let colors = "#3366CC #DC3912 #FF9900 #109618 #990099 #3B3EAC #0099C6 #DD4477 #66AA00 #B82E2E #316395 #994499 #22AA99 #AAAA11 #6633CC #E67300 #8B0707 #329262 #5574A6 #3B3EAC #3366CC #DC3912 #FF9900 #109618 #990099 #3B3EAC #0099C6 #DD4477 #66AA00 #B82E2E #316395 #994499 #22AA99 #AAAA11 #6633CC #E67300 #8B0707 #329262 #5574A6 #3B3EAC #3366CC #DC3912 #FF9900 #109618 #990099 #3B3EAC #0099C6 #DD4477 #66AA00 #B82E2E #316395 #994499 #22AA99 #AAAA11 #6633CC #E67300 #8B0707 #329262 #5574A6 #3B3EAC".split(" ");
+
+
+
+let donutOptions = {
+    cutoutPercentage: 0,
+    legend: {position: 'none', padding: 5, labels: {pointStyle: 'circle', usePointStyle: true}}
+};
+
+// donut 1
+let chDonutData1 = {
+    labels: [],
+    datasets: [
+        {
+            backgroundColor: colors,
+            borderWidth: 0,
+            data: []
+        }
+    ]
+};
+
+var lootChart;
+
+$(function() {
+    if($("#loot-chart").length !== 0){
+
+        $.getJSON( "/api/getloot", function( data ) {
+            console.log(data);
+            for (let k in data) {
+                //console.log(data[k].name);
+                chDonutData1.datasets[0].data.push(data[k].drop_times)
+                chDonutData1.labels.push(data[k].name);
+            }
+
+            console.log(chDonutData1);
+
+            var chDonut1 = document.getElementById("loot-chart");
+            if (chDonut1) {
+                lootChart = new Chart(chDonut1, {
+                    type: 'pie',
+                    data: chDonutData1,
+                    options: donutOptions
+                });
+            }
+
+        });
+
+
+    }
+
+    $(".item_container .item").click(function(){
+        var meta = lootChart.getDatasetMeta(0);
+        var id = chDonutData1.labels.indexOf($(this).data("original-title"));
+        meta.data[id].hidden = !meta.data[id].hidden;
+        $(this).parent().toggleClass("hidden-data");
+        lootChart.update();
+
+
+    });
 });

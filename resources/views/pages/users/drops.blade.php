@@ -24,9 +24,9 @@ foreach ($user->kills as $kills) {
     }
 }
 
+session(['monster_stacked_loot' => $stackedLoot,'monster_loot' => $loot, 'monster_kc' => $killKc]);
+
 ?>
-
-
 <div class="container">
     <div class="row justify-content-center">
 
@@ -35,7 +35,9 @@ foreach ($user->kills as $kills) {
                 <div class="card-header">Graph</div>
 
                 <div class="card-body">
-
+                    <div class="loot-chart-content">
+                        <canvas id="loot-chart"></canvas>
+                    </div>
                 </div>
             </div>
 
