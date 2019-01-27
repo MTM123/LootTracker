@@ -17,6 +17,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/api/getloot', 'Api\MonsterLootController@post');
 
+Route::post('/filter/post', 'Api\MonsterLootController@postFilter')->name('filter.sort');
+
 Route::group(['prefix' => 'users', 'namespace' => 'Users'], function() {
     Route::get('{key}', 'UserController@view')->name('users.view');
     Route::get('{key}/drops/{monsters?}', 'UserController@drops')->name('users.drops');

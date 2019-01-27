@@ -1,7 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
 <?php
+
+use App\Http\Controllers\Api\MonsterLootController;
+
 $killKc = count($user->kills);
 $loot = [];
 $stackedLoot = [];
@@ -29,7 +31,10 @@ foreach ($user->kills as $kills) {
 }
 
 //Sorting function
-$sortBy = "total_price"; //Add this to filter ['id','price','name','qty','drop_times','total_price',]
+$sortBy = "id"; //Add this to filter ['id','price','name','qty','drop_times','total_price',]
+if(array_key_exists(session(MonsterLootController::$SESSION_SORT_KEY),MonsterLootController::$sortSelect)){
+    $sortBy = MonsterLootController::$sortSelect[session(MonsterLootController::$SESSION_SORT_KEY)]['sort'];
+}
 $sortFlip = false;
 $sortedLoot = [];
 foreach ($stackedLoot as $killsNooneCare) {
@@ -61,6 +66,7 @@ $sortedLoot = $resort;
 session(['monster_stacked_loot' => $sortedLoot,'monster_loot' => $loot, 'monster_kc' => $killKc]);
 
 ?>
+{!!  "<script>;var graph_sort = '$sortBy';</script>" !!}
 <div class="container">
     <div class="row justify-content-center">
 
@@ -106,9 +112,20 @@ session(['monster_stacked_loot' => $sortedLoot,'monster_loot' => $loot, 'monster
         <div class="col-md-3">
             <div class="card mb-3">
                 <div class="card-header">Filter</div>
-
                 <div class="card-body">
+                    <form method="POST" action="{{ route('filter.sort') }}">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect2">Sort</label>
+                            @csrf
+                            <select name="sortby" class="form-control">
+                                @foreach(MonsterLootController::$sortSelect as $id => $v)
+                                    <option @if($id == session(MonsterLootController::$SESSION_SORT_KEY)) selected @endif value="{{ $id }}">{{ $v['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Sort</button>
 
+                    </form>
                 </div>
             </div>
 

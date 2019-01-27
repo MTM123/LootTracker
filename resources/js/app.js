@@ -205,8 +205,6 @@ $(function() {
             chart.scrollbarX = new am4core.Scrollbar();
             chart.data = data;
 
-            console.log(chart.data);
-
             // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
             categoryAxis.dataFields.category = "name";
@@ -224,7 +222,7 @@ $(function() {
 // Create series
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.sequencedInterpolation = true;
-            series.dataFields.valueY = "total_price";
+            series.dataFields.valueY = graph_sort;
             series.dataFields.categoryX = "name";
             series.tooltipText = "[{nameX}: bold]{valueY}[/]";
             series.columns.template.strokeWidth = 0;
