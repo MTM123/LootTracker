@@ -45,27 +45,42 @@ foreach ($stackedLoot as $killsNooneCare) {
     $sortedLoot[$biggestSortById] = $stackedLoot[$biggestSortById];
 }
 
+
 if ($sortFlip) {
     $sortedLoot = array_reverse($sortedLoot, true);
 }
 
+//get ride of key values
+$resort = [];
+foreach ($sortedLoot as $id => $kills) {
+    $resort[] = $kills;
+}
+$sortedLoot = $resort;
 
-session(['monster_stacked_loot' => $stackedLoot,'monster_loot' => $loot, 'monster_kc' => $killKc]);
+
+session(['monster_stacked_loot' => $sortedLoot,'monster_loot' => $loot, 'monster_kc' => $killKc]);
 
 ?>
 <div class="container">
     <div class="row justify-content-center">
 
-        <div class="col-md-9">
-            <div class="card mb-3">
+        <div class="col-md-12 mb-3">
+            <div class="card">
                 <div class="card-header">Graph</div>
 
                 <div class="card-body">
                     <div class="loot-chart-content">
-                        <canvas id="loot-chart"></canvas>
+                        {{--<canvas id="loot-chart"></canvas>--}}
+                        <div id="chartdiv"></div>
                     </div>
                 </div>
             </div>
+        </div>
+
+    </div>
+    <div class="row justify-content-center">
+
+        <div class="col-md-9">
 
             <div class="card mb-3">
                 <div class="card-header">Monster list<span class="badge badge-primary float-right">{{ number_format($totalLootSum,0,".", ",") }}</span></div>
@@ -89,6 +104,14 @@ session(['monster_stacked_loot' => $stackedLoot,'monster_loot' => $loot, 'monste
         </div>
 
         <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-header">Filter</div>
+
+                <div class="card-body">
+
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">Drop List</div>
 
@@ -100,5 +123,6 @@ session(['monster_stacked_loot' => $stackedLoot,'monster_loot' => $loot, 'monste
 
 
     </div>
+
 </div>
 @endsection

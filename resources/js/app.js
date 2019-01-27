@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap');
-require('./chart');
+//require('./chart');
 
 window.Vue = require('vue');
 
@@ -150,27 +150,103 @@ let chDonutData1 = {
 
 var lootChart;
 
+// $(function() {
+//     if($("#loot-chart").length !== 0){
+//
+//         $.getJSON( "/api/getloot", function( data ) {
+//             console.log(data);
+//             for (let k in data) {
+//                 //console.log(data[k].name);
+//                 //chDonutData1.datasets[0].data.push(data[k].total_price)
+//                 //chDonutData1.datasets[0].data.push(data[k].drop_times);
+//                 chDonutData1.datasets.push({data:[Math.random()*100],backgroundColor: colors, borderWidth: 0});
+//                 chDonutData1.labels.push(data[k].name);
+//             }
+//
+//             console.log(chDonutData1);
+//
+//             var chDonut1 = document.getElementById("loot-chart");
+//             if (chDonut1) {
+//                 lootChart = new Chart(chDonut1, {
+//                     type: 'bar',
+//                     data: chDonutData1,
+//                     options: donutOptions
+//                 });
+//             }
+//
+//         });
+//
+//
+//     }
+//
+//     $(".item_container .item").click(function(){
+//         var meta = lootChart.getDatasetMeta(0);
+//         var id = chDonutData1.labels.indexOf($(this).data("original-title"));
+//         meta.data[id].hidden = !meta.data[id].hidden;
+//         $(this).parent().toggleClass("hidden-data");
+//         lootChart.update();
+//
+//
+//     });
+// });
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+
+
+
 $(function() {
-    if($("#loot-chart").length !== 0){
+    if($("#chartdiv").length !== 0){
 
         $.getJSON( "/api/getloot", function( data ) {
-            console.log(data);
-            for (let k in data) {
-                //console.log(data[k].name);
-                chDonutData1.datasets[0].data.push(data[k].drop_times)
-                chDonutData1.labels.push(data[k].name);
-            }
+            var chart = am4core.create("chartdiv", am4charts.XYChart);
+            chart.scrollbarX = new am4core.Scrollbar();
+            chart.data = data;
 
-            console.log(chDonutData1);
+            console.log(chart.data);
 
-            var chDonut1 = document.getElementById("loot-chart");
-            if (chDonut1) {
-                lootChart = new Chart(chDonut1, {
-                    type: 'pie',
-                    data: chDonutData1,
-                    options: donutOptions
-                });
-            }
+            // Create axes
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "name";
+            categoryAxis.renderer.grid.template.location = 0;
+            categoryAxis.renderer.minGridDistance = 30;
+            categoryAxis.renderer.labels.template.horizontalCenter = "right";
+            categoryAxis.renderer.labels.template.verticalCenter = "middle";
+            categoryAxis.renderer.labels.template.rotation = 270;
+            categoryAxis.tooltip.disabled = true;
+            categoryAxis.renderer.minHeight = 110;
+
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.renderer.minWidth = 50;
+
+// Create series
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.sequencedInterpolation = true;
+            series.dataFields.valueY = "total_price";
+            series.dataFields.categoryX = "name";
+            series.tooltipText = "[{nameX}: bold]{valueY}[/]";
+            series.columns.template.strokeWidth = 0;
+
+            series.tooltip.pointerOrientation = "vertical";
+
+            series.columns.template.column.cornerRadiusTopLeft = 10;
+            series.columns.template.column.cornerRadiusTopRight = 10;
+            series.columns.template.column.fillOpacity = 0.8;
+
+// on hover, make corner radiuses bigger
+            let hoverState = series.columns.template.column.states.create("hover");
+            hoverState.properties.cornerRadiusTopLeft = 0;
+            hoverState.properties.cornerRadiusTopRight = 0;
+            hoverState.properties.fillOpacity = 1;
+
+            series.columns.template.adapter.add("fill", (fill, target)=>{
+                return chart.colors.getIndex(target.dataItem.index);
+            })
+
+// Cursor
+            chart.cursor = new am4charts.XYCursor();
 
         });
 
@@ -178,11 +254,8 @@ $(function() {
     }
 
     $(".item_container .item").click(function(){
-        var meta = lootChart.getDatasetMeta(0);
-        var id = chDonutData1.labels.indexOf($(this).data("original-title"));
-        meta.data[id].hidden = !meta.data[id].hidden;
+
         $(this).parent().toggleClass("hidden-data");
-        lootChart.update();
 
 
     });
