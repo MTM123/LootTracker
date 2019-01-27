@@ -1,7 +1,7 @@
 -- DROP PAGE --
-Graph
-Sorting
-Drop history
+Sorting 1/2 done created sorting mechanism
+
+Move code from blade to controller? : http://prntscr.com/mcnrsm
 
 Filter
 

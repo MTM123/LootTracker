@@ -44,6 +44,7 @@ class UpdatePrices extends Command
         Item::where('item_id', 995)->update(['price' => 1]);
 
         foreach ($allData as $items) {
+            $items->name = str_replace('\u0027',"'", $items->name);
             Item::where('name', $items->name)->update(['price' => $items->overall_average]);
             $this->comment("Price updated for: ".$items->name." -> ".$items->overall_average);
         }

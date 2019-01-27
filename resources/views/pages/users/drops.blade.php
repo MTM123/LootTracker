@@ -5,14 +5,17 @@
 $killKc = count($user->kills);
 $loot = [];
 $stackedLoot = [];
+$totalLootSum = 0;
 
 foreach ($user->kills as $kills) {
     foreach ($kills->items as $items) {
         $loot[] = ['id' => $items->item_id, 'price' => $items->price, 'name' => $items->name, 'qty' => $items->pivot->item_qty];
+        $totalLootSum += $items->pivot->item_qty*$items->price;
         //Stack loot
         if (array_key_exists($items->id, $stackedLoot)) {
             $stackedLoot[$items->id]->qty += $items->pivot->item_qty;
             $stackedLoot[$items->id]->drop_times += 1;
+            $stackedLoot[$items->id]->total_price += $items->pivot->item_qty*$items->price;
         }else{
             $stackedLoot[$items->id] = new \stdClass();
             $stackedLoot[$items->id]->id = $items->item_id;
@@ -20,9 +23,32 @@ foreach ($user->kills as $kills) {
             $stackedLoot[$items->id]->name = $items->name;
             $stackedLoot[$items->id]->qty = $items->pivot->item_qty;
             $stackedLoot[$items->id]->drop_times = 1;
+            $stackedLoot[$items->id]->total_price = $items->pivot->item_qty*$items->price;
         }
     }
 }
+
+//Sorting function
+$sortBy = "total_price"; //Add this to filter ['id','price','name','qty','drop_times','total_price',]
+$sortFlip = false;
+$sortedLoot = [];
+foreach ($stackedLoot as $killsNooneCare) {
+    $biggestSortById = 0;
+    $biggestSortByValue = 0;
+    foreach ($stackedLoot as $id => $kills){
+        $val = ((array)$kills)[$sortBy];
+        if ($biggestSortByValue <= $val && !array_key_exists($id, $sortedLoot)){
+            $biggestSortById = $id;
+            $biggestSortByValue = $val;
+        }
+    }
+    $sortedLoot[$biggestSortById] = $stackedLoot[$biggestSortById];
+}
+
+if ($sortFlip) {
+    $sortedLoot = array_reverse($sortedLoot, true);
+}
+
 
 session(['monster_stacked_loot' => $stackedLoot,'monster_loot' => $loot, 'monster_kc' => $killKc]);
 
@@ -42,10 +68,10 @@ session(['monster_stacked_loot' => $stackedLoot,'monster_loot' => $loot, 'monste
             </div>
 
             <div class="card mb-3">
-                <div class="card-header">Monster list</div>
+                <div class="card-header">Monster list<span class="badge badge-primary float-right">{{ number_format($totalLootSum,0,".", ",") }}</span></div>
                 <div class="card-body price-check-loot">
 
-                    @foreach($stackedLoot as $id => $item)
+                    @foreach($sortedLoot as $id => $item)
                         <div class="item_container">
                             <div class="item" data-toggle="tooltip" data-placement="bottom" title="{{ $item->name }}">
                                 <span>{{ $item->qty }}</span>
