@@ -26,12 +26,8 @@ use App\Http\Controllers\Api\MonsterLootController;
         <div class="col-md-9">
 
             <div class="card mb-3">
-                <div class="card-header">Monster list<span class="badge badge-primary float-right">{{ number_format($drops->totalLootSum,0,".", ",") }}</span></div>
+                <div class="card-header">Price check<span class="badge badge-primary float-right">{{ number_format($drops->totalLootSum,0,".", ",") }}</span></div>
                 <div class="card-body price-check-loot">
-
-                    <?php
-                    //dd($drops);
-                    ?>
 
                     @foreach($drops->drops as $id => $item)
                         <div class="item_container">
@@ -70,13 +66,34 @@ use App\Http\Controllers\Api\MonsterLootController;
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">Drop List</div>
-
-                <div class="card-body">
-
-                </div>
+            <div class="card last-5kills">
+                <div class="card-header">Last 10 kills</div>
+                <ul class="list-group list-group-flush">
+                    <?php
+                    $i = 0;
+                    $total_val = 0;
+                    ?>
+                    @foreach($user->kills as $kills)
+                        <?php
+                            foreach ($kills->items as $item){
+                                $total_val +=  $item->price;
+                            }
+                            ?>
+                        <li class="list-group-item">
+                            <div class="monster-name">Value: {{ number_format($total_val,0,".", ",") }}<span class="float-right">{{ $kills->created_at }}</span></div>
+                            <div class="monster-drops">
+                                @foreach($kills->items as $item)
+                                    @include('pages.users.plugins.item', $item)
+                                @endforeach
+                            </div>
+                        </li>
+                            <?php
+                            if (++$i == 10) break;
+                            ?>
+                    @endforeach
+                </ul>
             </div>
+
         </div>
 
 

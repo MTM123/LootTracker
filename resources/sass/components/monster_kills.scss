@@ -81,17 +81,6 @@ body {
     margin-bottom: 10px;
   }
 
-  .last-5kills {
-    .monster-name {
-      border-bottom: 1px solid $gray;
-    }
-
-    .monster-drops {
-      display: flex;
-      justify-content: flex-start;
-    }
-  }
-
   .btn-sm {
     padding: 0px 2px;
     line-height: 1.2;
@@ -109,6 +98,17 @@ body {
         }
       }
     }
+  }
+}
+
+.last-5kills {
+  .monster-name {
+    border-bottom: 1px solid $gray;
+  }
+
+  .monster-drops {
+    display: flex;
+    justify-content: flex-start;
   }
 }
 

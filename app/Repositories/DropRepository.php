@@ -74,6 +74,6 @@ class DropRepository
         }
 
         session(['monster_stacked_loot' => $resort,'monster_loot' => $loot, 'monster_kc' => $killKc]);
-        return (object) ['drops' => $resort, 'sortBy' => $sortBy, 'totalLootSum' => $totalLootSum];
+        return (object) ['drops' => $resort, 'sortBy' => $sortBy, 'totalLootSum' => $totalLootSum, 'loot' => $loot];
     }
 }
