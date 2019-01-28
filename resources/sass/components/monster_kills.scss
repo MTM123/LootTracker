@@ -170,18 +170,12 @@ body {
 }
 
 .price-check-loot {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  &:after {
-    content: "";
-    flex: auto;
-  }
 
   .item_container {
-    width: 80px;
+    width: calc(100%/3);
+    margin: 0 auto;
     text-align: center;
+    float:left;
     .price-values {
 
     }
@@ -189,6 +183,24 @@ body {
       display: inline-block;
     }
   }
+
+  @for $i from 0 through 1 {
+    @media (min-width: #{(460+(52*$i))}px){
+      .item_container {
+        width: calc(100%/#{$i+3});
+      }
+    }
+  }
+
+  @for $i from 1 through 4 {
+    @media (min-width: #{(992+(52*$i))}px){
+      .item_container {
+        width: calc(100%/#{$i+4});
+      }
+    }
+  }
+
+
 }
 
 .loot-chat-content {

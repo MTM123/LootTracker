@@ -52,7 +52,8 @@ class DropRepository
             $biggestSortById = 0;
             $biggestSortByValue = 0;
             foreach ($stackedLoot as $id => $kills){
-                $val = ((array)$kills)[$sortBy];
+
+                $val = $kills->{$sortBy};
                 if ($biggestSortByValue <= $val && !array_key_exists($id, $sortedLoot)){
                     $biggestSortById = $id;
                     $biggestSortByValue = $val;
