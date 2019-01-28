@@ -101,69 +101,6 @@ function rgb2hex(r, g, b) {
 }
 
 
-let colors = "#3366CC #DC3912 #FF9900 #109618 #990099 #3B3EAC #0099C6 #DD4477 #66AA00 #B82E2E #316395 #994499 #22AA99 #AAAA11 #6633CC #E67300 #8B0707 #329262 #5574A6 #3B3EAC #3366CC #DC3912 #FF9900 #109618 #990099 #3B3EAC #0099C6 #DD4477 #66AA00 #B82E2E #316395 #994499 #22AA99 #AAAA11 #6633CC #E67300 #8B0707 #329262 #5574A6 #3B3EAC #3366CC #DC3912 #FF9900 #109618 #990099 #3B3EAC #0099C6 #DD4477 #66AA00 #B82E2E #316395 #994499 #22AA99 #AAAA11 #6633CC #E67300 #8B0707 #329262 #5574A6 #3B3EAC".split(" ");
-
-
-
-let donutOptions = {
-    cutoutPercentage: 0,
-    legend: {position: 'none', padding: 5, labels: {pointStyle: 'circle', usePointStyle: true}}
-};
-
-// donut 1
-let chDonutData1 = {
-    labels: [],
-    datasets: [
-        {
-            backgroundColor: colors,
-            borderWidth: 0,
-            data: []
-        }
-    ]
-};
-
-var lootChart;
-
-// $(function() {
-//     if($("#loot-chart").length !== 0){
-//
-//         $.getJSON( "/api/getloot", function( data ) {
-//             console.log(data);
-//             for (let k in data) {
-//                 //console.log(data[k].name);
-//                 //chDonutData1.datasets[0].data.push(data[k].total_price)
-//                 //chDonutData1.datasets[0].data.push(data[k].drop_times);
-//                 chDonutData1.datasets.push({data:[Math.random()*100],backgroundColor: colors, borderWidth: 0});
-//                 chDonutData1.labels.push(data[k].name);
-//             }
-//
-//             console.log(chDonutData1);
-//
-//             var chDonut1 = document.getElementById("loot-chart");
-//             if (chDonut1) {
-//                 lootChart = new Chart(chDonut1, {
-//                     type: 'bar',
-//                     data: chDonutData1,
-//                     options: donutOptions
-//                 });
-//             }
-//
-//         });
-//
-//
-//     }
-//
-//     $(".item_container .item").click(function(){
-//         var meta = lootChart.getDatasetMeta(0);
-//         var id = chDonutData1.labels.indexOf($(this).data("original-title"));
-//         meta.data[id].hidden = !meta.data[id].hidden;
-//         $(this).parent().toggleClass("hidden-data");
-//         lootChart.update();
-//
-//
-//     });
-// });
-
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
@@ -178,16 +115,24 @@ $(function() {
             var chart = am4core.create("chartdiv", am4charts.XYChart);
             chart.scrollbarX = new am4core.Scrollbar();
             chart.data = [];
+            chart.labelText = "adasdsa";
 
             Object.keys(data).forEach(function(k){
-                chart.data.push({name: data[k].name+":"+data[k].id, price: data[k].price, qty: data[k].qty, drop_times:data[k].drop_times, total_price: data[k].total_price});
+                chart.data.push({
+                    name_id: data[k].name+"["+data[k].id+"]",
+                    name: data[k].name,
+                    price: data[k].price,
+                    qty: data[k].qty,
+                    drop_times:data[k].drop_times,
+                    total_price: data[k].total_price
+                });
             });
 
             
 
             // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "name";
+            categoryAxis.dataFields.category = "name_id";
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.minGridDistance = 30;
             categoryAxis.renderer.labels.template.horizontalCenter = "right";
@@ -199,12 +144,13 @@ $(function() {
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.renderer.minWidth = 50;
 
-// Create series
+            // Create series
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.sequencedInterpolation = true;
             series.dataFields.valueY = graph_sort;
-            series.dataFields.categoryX = "name";
-            series.tooltipText = "[{nameX}: bold]{valueY}[/]";
+            series.dataFields.categoryX = "name_id";
+            //series.tooltipText = "[{nameX}: bold]{valueY}[/]";
+            series.tooltipText = "Name: {name}\nValue: {valueY}";
             series.columns.template.strokeWidth = 0;
 
             series.tooltip.pointerOrientation = "vertical";
