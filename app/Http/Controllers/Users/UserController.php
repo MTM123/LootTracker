@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Repositories\DropRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -10,8 +11,13 @@ class UserController extends Controller
 {
     const MAX_MONSTERS = 5;
 
-    public function __construct()
+    protected $dropRepository;
+
+    public function __construct(
+        DropRepository $dropRepository
+    )
     {
+        $this->dropRepository = $dropRepository;
         /** @TODO: Implement javascript functionality */
         // $this->middleware('ajax')
         //     ->only('generateKey');
@@ -40,7 +46,8 @@ class UserController extends Controller
             $query->whereIn('monster_id', $monsters);
         }, 'kills.monster', 'kills.items']);
 
-        return view('pages.users.drops', compact('user'));
+        $drops = $this->dropRepository->sortDrops($user);
+        return view('pages.users.drops', compact('user', 'drops'));
     }
 
     public function generateKey()
