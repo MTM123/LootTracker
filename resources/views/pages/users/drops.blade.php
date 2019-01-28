@@ -29,6 +29,10 @@ use App\Http\Controllers\Api\MonsterLootController;
                 <div class="card-header">Monster list<span class="badge badge-primary float-right">{{ number_format($drops->totalLootSum,0,".", ",") }}</span></div>
                 <div class="card-body price-check-loot">
 
+                    <?php
+                    //dd($drops);
+                    ?>
+
                     @foreach($drops->drops as $id => $item)
                         <div class="item_container">
                             <div class="item" data-toggle="tooltip" data-placement="bottom" title="{{ $item->name }}">

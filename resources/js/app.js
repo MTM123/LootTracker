@@ -177,7 +177,13 @@ $(function() {
         $.getJSON( "/api/getloot", function( data ) {
             var chart = am4core.create("chartdiv", am4charts.XYChart);
             chart.scrollbarX = new am4core.Scrollbar();
-            chart.data = data;
+            chart.data = [];
+
+            Object.keys(data).forEach(function(k){
+                chart.data.push({name: data[k].name+":"+data[k].id, price: data[k].price, qty: data[k].qty, drop_times:data[k].drop_times, total_price: data[k].total_price});
+            });
+
+            
 
             // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
