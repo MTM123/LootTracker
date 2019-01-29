@@ -155,8 +155,8 @@ $(function() {
 
             series.tooltip.pointerOrientation = "vertical";
 
-            series.columns.template.column.cornerRadiusTopLeft = 10;
-            series.columns.template.column.cornerRadiusTopRight = 10;
+            series.columns.template.column.cornerRadiusTopLeft = 2;
+            series.columns.template.column.cornerRadiusTopRight = 2;
             series.columns.template.column.fillOpacity = 0.8;
 
 // on hover, make corner radiuses bigger
