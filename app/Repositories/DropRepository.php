@@ -10,6 +10,8 @@ namespace App\Repositories;
 
 
 use App\Http\Controllers\Api\MonsterLootController;
+use App\Models\User;
+use Carbon\Carbon;
 
 class DropRepository
 {
@@ -75,5 +77,36 @@ class DropRepository
 
         session(['monster_stacked_loot' => $resort,'monster_loot' => $loot, 'monster_kc' => $killKc]);
         return (object) ['drops' => $resort, 'sortBy' => $sortBy, 'totalLootSum' => $totalLootSum, 'loot' => $loot];
+    }
+
+    public function last7DaysDrops($key)
+    {
+        $user = User::where('key', $key)->firstOrFail();
+
+        $user->load(['kills' => function($query) {
+            $query->whereBetween('created_at',[ Carbon::now()->subDays(4), Carbon::now()]);
+            $query->orderBy('created_at', 'DESC');
+        }, 'kills.items']);
+
+        return $user;
+    }
+
+    public function formatForGraphData($data) {
+        $allKills = [];
+        foreach ($data->kills as $kills) {
+            $incrimentId = date("d",strtotime($kills->created_at));
+            $lootvalue = 0;
+            foreach ($kills->items as $item) {
+                $lootvalue += $item->price;
+            }
+            if(!isset($allKills[$incrimentId])){
+                $allKills[$incrimentId] = new \stdClass();
+                $allKills[$incrimentId]->loot = 0;
+                $allKills[$incrimentId]->date = date("Y-m-d",strtotime($kills->created_at));
+            }
+            $allKills[$incrimentId]->loot += $lootvalue;
+        }
+
+        return $allKills;
     }
 }

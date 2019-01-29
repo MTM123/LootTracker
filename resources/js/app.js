@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('./components/7daychart');
 //require('./chart');
 
 // Favorite Button - Heart
@@ -101,14 +102,13 @@ function rgb2hex(r, g, b) {
 }
 
 
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
-
-
-
 
 $(function() {
+
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+// Themes end
+
     if($("#chartdiv").length !== 0){
 
         $.getJSON( "/api/getloot", function( data ) {
