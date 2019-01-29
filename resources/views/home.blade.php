@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
     <div class="row justify-content-center">
         @if(auth()->check())
             @include('pages.users.plugins.graph')
@@ -38,5 +37,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

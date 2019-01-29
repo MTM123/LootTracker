@@ -4,7 +4,7 @@
 use App\Http\Controllers\Api\MonsterLootController;
 ?>
 {!!  "<script>;var graph_sort = '$drops->sortBy';</script>" !!}
-<div class="container">
+
     <div class="row justify-content-center">
 
         <div class="col-md-12 mb-3">
@@ -99,5 +99,5 @@ use App\Http\Controllers\Api\MonsterLootController;
 
     </div>
 
-</div>
+
 @endsection

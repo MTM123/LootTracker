@@ -7,18 +7,29 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller
 {
     const MAX_MONSTERS = 5;
 
+    /**
+     * @var DropRepository
+     */
     protected $dropRepository;
 
+    /**
+     * @var Route
+     */
+    protected $route;
+
     public function __construct(
-        DropRepository $dropRepository
+        DropRepository $dropRepository,
+        Route $route
     )
     {
         $this->dropRepository = $dropRepository;
+        $this->route = $route;
         /** @TODO: Implement javascript functionality */
         // $this->middleware('ajax')
         //     ->only('generateKey');
@@ -28,6 +39,7 @@ class UserController extends Controller
     {
         $user = User::where('key', $key)->firstOrFail();
 
+        Breadcrumb()->add(($user->name==null?$user->email:$user->name), route("users.view", ['key' => $key]));
         return view('pages.users.view', compact('user'));
     }
 
@@ -49,6 +61,9 @@ class UserController extends Controller
         }, 'kills.monster', 'kills.items']);
 
         $drops = $this->dropRepository->sortDrops($user);
+
+        Breadcrumb()->add(($user->name==null?$user->email:$user->name), route("users.view", ['key' => $key]));
+        Breadcrumb()->add("Drops", route("users.drops", ['key' => $key, 'monsters' => implode("-", $monsters)]));
         return view('pages.users.drops', compact('user', 'drops'));
     }
 
