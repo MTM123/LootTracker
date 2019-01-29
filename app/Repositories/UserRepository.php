@@ -21,6 +21,17 @@ class UserRepository
     }
 
     /**
+     * @param $name
+     * @param array $columns
+     *
+     * @return User|\Illuminate\Database\Eloquent\Model
+     */
+    public function getUserByName($name, $columns = ['*'])
+    {
+        return User::where('name', $name)->first($columns);
+    }
+
+    /**
      * @param User $user
      * @param $data
      *
@@ -56,11 +67,20 @@ class UserRepository
 
     /**
      * @param $params
+     * @param User $user
      *
      * @return Monster|\Illuminate\Database\Eloquent\Model
      */
-    protected function getMonster($params)
+    public function getMonster($params, User $user)
     {
+        //Monster name validator;
+        $regex = '/(.*)\((.*)\)/m';
+        preg_match_all($regex, $params->npc_name, $matches, PREG_SET_ORDER, 0);
+        if (count($matches) >= 1){
+            $params->npc_name = trim($matches[0][1]);
+            $params->npc_level = trim($matches[0][2]);
+        }
+
         $monster = Monster::where('name', $params->npc_name);
 
         if (!empty($params->npc_level)) {
@@ -71,6 +91,7 @@ class UserRepository
 
         if ($monster == null) {
             return Monster::create([
+                'creator_id' => $user->id,
                 'name' => $params->npc_name,
                 'level' => $params->npc_level
             ]);
@@ -87,14 +108,14 @@ class UserRepository
      */
     protected function addDrops(User $user, $data)
     {
-        $monster = $this->getMonster($data->npc);
+        $monster = $this->getMonster($data->npc, $user);
 
         $loot = [];
         foreach ($data->drops as $drop) {
             $item = $this->getItemByName($drop, true);
 
             $loot[] = [
-                'item_id' => $item->id,
+                'item_id' => $item->item_id,
                 'item_qty' => $drop->item_qty
             ];
         }
@@ -102,7 +123,7 @@ class UserRepository
         return MonsterKill::create([
             'user_id' => $user->id,
             'monster_id' => $monster->id,
-            'loot' => json_encode($loot)
+            'loot' => $loot
         ]);
     }
 

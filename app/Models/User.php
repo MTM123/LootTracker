@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\User
@@ -26,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token'
+        'name', 'key', 'email', 'password', 'api_token'
     ];
 
     /**
@@ -47,11 +48,30 @@ class User extends Authenticatable
 
         static::creating(function ($user) {
             $user->api_token = str_random(12);
+            $user->key = str_random(7);
         });
     }
 
     public function kills()
     {
         return $this->hasMany(MonsterKill::class);
+    }
+
+    public function getLastKills($amount){
+        return $this->kills()->with(['items','monster'])
+            ->orderBy('id', 'desc')
+            ->limit($amount)
+            ->get();
+    }
+
+    public function sortedKills()
+    {
+        return $this->kills()
+            ->select('*', DB::raw('count(*) as count'))
+            ->leftJoin('monsters', 'monster_kills.monster_id', '=', 'monsters.id')
+            ->orderBy('monsters.name', 'asc')
+            ->orderBy('monsters.level', 'asc')
+            ->groupBy('monster_kills.monster_id')
+            ->get();
     }
 }

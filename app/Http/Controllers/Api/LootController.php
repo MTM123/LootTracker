@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\DropRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -14,14 +15,21 @@ class LootController extends Controller
     protected $userRepository;
 
     /**
+     * @var DropRepository
+     */
+    protected $dropRepository;
+
+    /**
      * LootController constructor.
      *
      * @param UserRepository $userRepository
      */
     public function __construct(
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        DropRepository $dropRepository
     ) {
         $this->userRepository = $userRepository;
+        $this->dropRepository = $dropRepository;
     }
 
     /**
@@ -44,5 +52,19 @@ class LootController extends Controller
         }
 
         return $this->userRepository->updateUserKills($user, $data);
+    }
+
+    public function get7DayLoot() {
+        if (!auth()->check()) {
+            die('Fuck off!');
+        }
+
+        $user = auth()->user();
+
+        $allKills = $this->dropRepository->last7DaysDrops($user->key);
+        $formated = $this->dropRepository->formatForGraphData($allKills);
+
+        //return view('home');
+        return response()->json($formated);
     }
 }

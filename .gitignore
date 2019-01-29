@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/debugbar
 /vendor
 .env
 .phpunit.result.cache
@@ -10,3 +11,8 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.idea
+/public/css/*.css
+/public/js/*.js
+/public/mix-manifest.json
+deploy.sh
+package-lock.json

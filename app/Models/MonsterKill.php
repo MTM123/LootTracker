@@ -21,7 +21,7 @@ class MonsterKill extends Model
     use HasJsonRelationships;
 
     protected $fillable = [
-        'user_id', 'monster_id', 'loot'
+        'user_id', 'monster_id', 'loot', 'created_at'
     ];
 
     protected $casts = ['loot' => 'json'];
@@ -38,6 +38,6 @@ class MonsterKill extends Model
 
     public function items()
     {
-        return $this->belongsToJson(Item::class, 'loot[]->item_id');
+        return $this->belongsToJson(Item::class, 'loot[]->item_id', 'item_id');
     }
 }

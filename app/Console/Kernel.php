@@ -13,7 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ItemImport::class,
+        Commands\FixDropLoot::class,
+        Commands\ImportOldUserData::class,
+        Commands\UpdatePrices::class,
     ];
 
     /**
