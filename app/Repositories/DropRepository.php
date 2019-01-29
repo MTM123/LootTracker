@@ -84,7 +84,7 @@ class DropRepository
         $user = User::where('key', $key)->firstOrFail();
 
         $user->load(['kills' => function($query) {
-            $query->whereBetween('created_at',[ Carbon::now()->subDays(4), Carbon::now()]);
+            $query->whereBetween('created_at',[ Carbon::now()->startOfDay()->subDays(30), Carbon::now()->endOfDay()]);
             $query->orderBy('created_at', 'DESC');
         }, 'kills.items']);
 

@@ -55,32 +55,34 @@ class ImportOldUserData extends Command
             $this->error("Cant find user with name $importName");
             return;
         }
-        try {
-            $list = Storage::disk('local')->get('olddbitems.json');
-            $parsed = json_decode($list, false);
-            foreach ($parsed as $id => $kill){
-                if ($kill->username == $importName && !empty($kill->drops)){
-                    //Parse name
-                    $monsterParam[0] = $kill->npc_name;
-                    $monsterParam[1] = "";
-                    if (strpos($kill->npc_name,":") !== false){
-                        $ex = explode(":",$kill->npc_name);
-                        $monsterParam[0] = $ex[0];
-                        $monsterParam[1] = $ex[1];
-                    }
-                    $monster = $this->userRepository->getMonster((object)['npc_name' => $monsterParam[0], 'npc_level' => $monsterParam[1]], $userData);
-                    MonsterKill::create([
-                        'user_id' => $userData->id,
-                        'monster_id' => $monster->id,
-                        'loot' => $kill->drops
-                    ]);
-                    $this->comment("Imported ".$monster->name);
 
+
+        $list = file_get_contents("https://twitchhud.000webhostapp.com/osrsloot/olddb.php?name=".urlencode($importName));
+
+        $parsed = json_decode($list, false);
+
+        foreach ($parsed as $id => $kill){
+            if ($kill->username == $importName && !empty($kill->drops)){
+                //Parse name
+                $monsterParam[0] = $kill->npc_name;
+                $monsterParam[1] = "";
+                if (strpos($kill->npc_name,":") !== false){
+                    $ex = explode(":",$kill->npc_name);
+                    $monsterParam[0] = $ex[0];
+                    $monsterParam[1] = $ex[1];
                 }
+                $monster = $this->userRepository->getMonster((object)['npc_name' => $monsterParam[0], 'npc_level' => $monsterParam[1]], $userData);
+                MonsterKill::create([
+                    'user_id' => $userData->id,
+                    'monster_id' => $monster->id,
+                    'loot' => $kill->drops,
+                    'created_at' => $kill->time
+                ]);
+                $this->comment("Imported ".$monster->name);
+
             }
-            $this->comment("Import finished");
-        }catch (FileNotFoundException $e) {
-            $this->comment("File not found: /storage/app/olddbitems.json");
         }
+        $this->comment("Import finished");
+
     }
 }
