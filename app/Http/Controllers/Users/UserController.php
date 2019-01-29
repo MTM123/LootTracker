@@ -44,6 +44,7 @@ class UserController extends Controller
 
         $user->load(['kills' => function($query) use ($monsters) {
             $query->whereIn('monster_id', $monsters);
+            $query->orderBy('created_at', 'DESC');
         }, 'kills.monster', 'kills.items']);
 
         $drops = $this->dropRepository->sortDrops($user);
