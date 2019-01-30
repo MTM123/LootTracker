@@ -61,6 +61,10 @@ $(function() {
                 });
             });
 
+            series.columns.template.events.on("hit", function(ev) {
+                console.log("clicked on ", ev.target);
+            }, this);
+
         });
 
 
