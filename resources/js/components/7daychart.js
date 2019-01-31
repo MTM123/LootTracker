@@ -65,11 +65,7 @@ $(function() {
 
 
 
-            indicator.hidden = true;
-            indicator.width = am4core.percent(0);
-            indicator.height = am4core.percent(0);
-            indicatorLabel.text = "";
-            console.log(indicator);
+            indicator.hide();
             chart.validateData();
 
         });
