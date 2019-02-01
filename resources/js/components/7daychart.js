@@ -3,15 +3,12 @@ $(function() {
     if($("#loot-statistic").length !== 0){
 
         am4core.useTheme(am4themes_animated);
-
+        var chart = am4core.create("loot-statistic", am4charts.XYChart);
+        chart.data = [];
         $.getJSON( "/api/get7dayloot", function( data ) {
-            var chart = am4core.create("loot-statistic", am4charts.XYChart);
+            //var chart = am4core.create("loot-statistic", am4charts.XYChart);
             chart.scrollbarX = new am4core.Scrollbar();
 
-
-            console.log(data);
-
-            chart.data = [];
             Object.keys(data).forEach(function(k){
                 chart.data.push({
                     //name: k,
@@ -61,7 +58,38 @@ $(function() {
                 });
             });
 
+            series.columns.template.events.on("hit", function(ev) {
+
+                console.log("clicked on ", ev.target._dataItem.dataContext);
+            }, this);
+
+
+
+            indicator.hide();
+            chart.validateData();
+
         });
+
+
+
+        var indicator;
+        var indicatorLabel;
+        function showIndicator() {
+            indicator = chart.tooltipContainer.createChild(am4core.Container);
+            indicator.background.fill = am4core.color("#fff");
+            indicator.background.fillOpacity = 0.8;
+            indicator.width = am4core.percent(100);
+            indicator.height = am4core.percent(100);
+
+            indicatorLabel = indicator.createChild(am4core.Label);
+            indicatorLabel.text = "Processing your drops...";
+            indicatorLabel.align = "center";
+            indicatorLabel.valign = "middle";
+            indicatorLabel.fontSize = 20;
+
+        }
+
+        showIndicator();
 
 
     }

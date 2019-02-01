@@ -71,12 +71,12 @@ use App\Http\Controllers\Api\MonsterLootController;
                 <ul class="list-group list-group-flush">
                     <?php
                     $i = 0;
-                    $total_val = 0;
                     ?>
                     @foreach($user->kills as $kills)
                         <?php
+                            $total_val = 0;
                             foreach ($kills->items as $item){
-                                $total_val +=  $item->price;
+                                $total_val +=  $item->price*$item->pivot->item_qty;
                             }
                             ?>
                         <li class="list-group-item">

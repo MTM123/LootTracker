@@ -18,6 +18,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/api/getloot', 'Api\MonsterLootController@post');
 Route::get('/api/get7dayloot', 'Api\LootController@get7DayLoot');
 
+Route::get('/settings', 'SettingsController@settingsPage')->name('page.setting');
+
 Route::post('/filter/post', 'Api\MonsterLootController@postFilter')->name('filter.sort');
 
 Route::group(['prefix' => 'users', 'namespace' => 'Users'], function() {

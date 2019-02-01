@@ -97,7 +97,7 @@ class DropRepository
             $incrimentId = date("d",strtotime($kills->created_at));
             $lootvalue = 0;
             foreach ($kills->items as $item) {
-                $lootvalue += $item->price;
+                $lootvalue += $item->price*$item->pivot->item_qty;
             }
             if(!isset($allKills[$incrimentId])){
                 $allKills[$incrimentId] = new \stdClass();

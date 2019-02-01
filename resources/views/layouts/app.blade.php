@@ -41,8 +41,14 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="http://cdn.kulers.ml/client/RuneLite-LootTracker.jar">{{ __('Download Client') }}</a>
+                            <a class="nav-link" href="/">{{ __('Home') }}</a>
                         </li>
+                        @if (Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.view', ['key' => Auth::user()->key]) }}">{{ __('My Drops') }}</a>
+                            </li>
+                        @endif
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -58,6 +64,9 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://cdn.kulers.ml/client/RuneLite-LootTracker.jar">{{ __('Download Client') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if (empty(Auth::user()->name))
