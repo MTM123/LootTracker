@@ -63,7 +63,7 @@ $(function() {
 
             ///Hover
             //first series */
-            series.tooltipHTML = `<center><strong>5 Most valueable drops</strong></center>
+            series.tooltipHTML = `<center><strong>9 Most valuable drops</strong></center>
             <hr /> 
             {valueable}          
             `;
