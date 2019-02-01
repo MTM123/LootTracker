@@ -64,9 +64,12 @@ $(function() {
             ///Hover
             //first series */
             series.tooltipHTML = `<center><strong>9 Most valuable drops</strong></center>
-            <div style="width:132px;">
+            <div style="width:132px;" class="clearfix">
             {valueable}
-            </div>         
+            </div>
+            <div class="text-center">
+            Loot: {value}
+            <div>
             `;
             series.tooltip.label.interactionsEnabled = true;
             series.tooltip.pointerOrientation = "vertical";
@@ -88,6 +91,13 @@ $(function() {
 
                 console.log("clicked on ", ev.target._dataItem.dataContext);
             }, this);
+
+            // chart.events.on("ready", function () {
+            //     categoryAxis.zoomToDates(
+            //         new Date(new Date().setDate(new Date().getDate() - 7)),
+            //         new Date()
+            //     );
+            // });
 
 
 
