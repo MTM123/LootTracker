@@ -15,6 +15,11 @@ use Carbon\Carbon;
 
 class DropRepository
 {
+    /**
+     * @var int
+     */
+    protected $_HOW_MANY_DROPS = 9;
+
     public function sortDrops($user) {
 
         $killKc = count($user->kills);
@@ -96,15 +101,49 @@ class DropRepository
         foreach ($data->kills as $kills) {
             $incrimentId = date("d",strtotime($kills->created_at));
             $lootvalue = 0;
-            foreach ($kills->items as $item) {
-                $lootvalue += $item->price*$item->pivot->item_qty;
-            }
+
             if(!isset($allKills[$incrimentId])){
                 $allKills[$incrimentId] = new \stdClass();
                 $allKills[$incrimentId]->loot = 0;
                 $allKills[$incrimentId]->date = date("Y-m-d",strtotime($kills->created_at));
             }
+
+            foreach ($kills->items as $item) {
+                $lootvalue += $item->price*$item->pivot->item_qty;
+                if(!isset($allKills[$incrimentId]->valueable[$item->id])) {
+                    $allKills[$incrimentId]->valueable[$item->id] = new \stdClass();
+                    $allKills[$incrimentId]->valueable[$item->id]->name = $item->name;
+                    $allKills[$incrimentId]->valueable[$item->id]->loot = 0;
+                    $allKills[$incrimentId]->valueable[$item->id]->qty = 0;
+                    $allKills[$incrimentId]->valueable[$item->id]->id = $item->item_id;
+                }
+                $allKills[$incrimentId]->valueable[$item->id]->name = $item->name;
+                $allKills[$incrimentId]->valueable[$item->id]->loot += $item->price*$item->pivot->item_qty;
+                $allKills[$incrimentId]->valueable[$item->id]->qty += $item->pivot->item_qty;
+            }
             $allKills[$incrimentId]->loot += $lootvalue;
+        }
+
+        //Sort
+        foreach ($allKills as $id => $value) {
+            //Sort for the day
+            $sorted = [];
+            foreach ($allKills[$id]->valueable as $vid => $drops) {
+                $maxVal = -1;
+                $maxId = -1;
+                foreach ($allKills[$id]->valueable as $ids => $drops2) {
+                    if ($maxVal <= $drops2->loot && !array_key_exists($ids, $sorted)) {
+                        $maxVal = $drops2->loot;
+                        $maxId = $ids;
+                    }
+                }
+                //var_dump($allKills[$id]->valueable);exit;
+                $sorted[$maxId] = $allKills[$id]->valueable[$maxId];
+                if(count($sorted) >= $this->_HOW_MANY_DROPS) {
+                    break;
+                }
+            }
+            $allKills[$id]->valueable = $sorted;
         }
 
         return $allKills;

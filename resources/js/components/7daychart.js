@@ -10,10 +10,27 @@ $(function() {
             chart.scrollbarX = new am4core.Scrollbar();
 
             Object.keys(data).forEach(function(k){
+
+                //Make valueables look good
+
+                var template = `
+                <div class="item float-left" data-toggle="tooltip" >
+                    <span>{QTY}</span>
+                    <img src="http://cdn.kulers.ml/media/{ID}.png" />
+                </div>
+                `;
+                var valuablesHtml = '';
+                Object.keys(data[k].valueable).forEach(function(s){
+                    valuablesHtml = template.replace("{QTY}", data[k].valueable[s].qty).replace("{ID}", data[k].valueable[s].id) + valuablesHtml;
+                });
+
+
+
                 chart.data.push({
                     //name: k,
                     date: data[k].date+"",
-                    value: data[k].loot
+                    value: data[k].loot,
+                    valueable: valuablesHtml
                 });
             });
 
@@ -44,6 +61,14 @@ $(function() {
             series.columns.template.column.cornerRadiusTopRight = 2;
             series.columns.template.column.fillOpacity = 0.8;
 
+            ///Hover
+            //first series */
+            series.tooltipHTML = `<center><strong>5 Most valueable drops</strong></center>
+            <hr /> 
+            {valueable}          
+            `;
+            series.tooltip.label.interactionsEnabled = true;
+            series.tooltip.pointerOrientation = "vertical";
 
             // Cursor
             chart.cursor = new am4charts.XYCursor();
