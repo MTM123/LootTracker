@@ -64,8 +64,9 @@ $(function() {
             ///Hover
             //first series */
             series.tooltipHTML = `<center><strong>9 Most valuable drops</strong></center>
-            <hr /> 
-            {valueable}          
+            <div style="width:132px;">
+            {valueable}
+            </div>         
             `;
             series.tooltip.label.interactionsEnabled = true;
             series.tooltip.pointerOrientation = "vertical";
