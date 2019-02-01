@@ -1,11 +1,3 @@
--- DROP PAGE --
-Sorting 1/2 done created sorting mechanism
-
-Move code from blade to controller? : http://prntscr.com/mcnrsm
-
-Filter
-
-Need to fix so they are under top row: http://prntscr.com/mcmrrg
 
 -- CLAN PAGE --
 Place where u could see all clan member kills
