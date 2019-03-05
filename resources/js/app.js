@@ -187,7 +187,7 @@ $(function() {
 
 
     //full screen search
-    if(isFsSearch){
+    if(typeof isFsSearch !== "undefined" && isFsSearch){
         var fss = new FullScreenSearch();
     }
 });

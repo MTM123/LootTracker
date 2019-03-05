@@ -69,7 +69,6 @@ class FullScreenSearch {
         this.text = this.text.replace(/\s\s+/g, ' ');
         if(this.text == ""){
             $(".searchLayer").hide();
-            $(".monster-name").unmark();
             return;
         }
         $(".searchLayer").show();
