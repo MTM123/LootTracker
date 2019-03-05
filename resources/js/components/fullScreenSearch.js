@@ -2,7 +2,6 @@ class FullScreenSearch {
 
     constructor() {
         this.text = "";
-        this.lastKeyStroke = 9999999999999999;
         $("body").append("<div class='searchLayer'><div class='fsDiv'><span class='fsInput'></span><span class=\"blinking-cursor\">|</span></div></div>");
 
         var that = this;
@@ -11,19 +10,19 @@ class FullScreenSearch {
 
             if(String.fromCharCode(event.which).match("[A-Z0-9]")){
                 that.addLetter(String.fromCharCode(event.which));
-                that.lastKeyStroke = that.time();
+                that.mark();
                 event.preventDefault();
             }
 
             if(event.which === 32){
                 that.addLetter(String.fromCharCode(event.which));
-                that.lastKeyStroke = that.time();
+                that.mark();
                 event.preventDefault();
             }
 
             if(event.which === 8){
                 that.removeLast()
-                that.lastKeyStroke = that.time();
+                that.mark();
                 event.preventDefault();
             }
 
@@ -32,16 +31,6 @@ class FullScreenSearch {
                 event.preventDefault();
             }
         });
-
-        setInterval(function () {
-            if(that.lastKeyStroke + 1 <= that.time()){
-                that.mark();
-                that.lastKeyStroke = 9999999999999999;
-                console.log("update")
-            }
-        },100);
-
-
         this.update();
     }
 
