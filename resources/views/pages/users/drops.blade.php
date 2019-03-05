@@ -3,7 +3,7 @@
 <?php
 use App\Http\Controllers\Api\MonsterLootController;
 ?>
-{!!  "<script>;var graph_sort = '$drops->sortBy';</script>" !!}
+{!!  "<script>var graph_sort = '$drops->sortBy';</script>" !!}
 
     <div class="row justify-content-center">
 

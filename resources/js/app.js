@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 require('./components/7daychart');
+require('./components/fullScreenSearch');
 //require('./chart');
 
 // Favorite Button - Heart
@@ -183,4 +184,10 @@ $(function() {
 
 
     });
+
+
+    //full screen search
+    if(isFsSearch){
+        var fss = new FullScreenSearch();
+    }
 });

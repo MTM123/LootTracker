@@ -60,5 +60,6 @@
         </div>
 
     </div>
+    {!!  "<script defer>var isFsSearch = true; </script>" !!}
 
 @endsection
