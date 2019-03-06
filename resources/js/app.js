@@ -190,4 +190,9 @@ $(function() {
     if(typeof isFsSearch !== "undefined" && isFsSearch){
         var fss = new FullScreenSearch();
     }
+
+    //datetime
+    $('.datetimepicker-input').datetimepicker({
+        format: 'd-m-y',
+    });
 });

@@ -52,8 +52,8 @@ class DropRepository
 
         //Sorting function
         $sortBy = "total_price"; //Add this to filter ['id','price','name','qty','drop_times','total_price',]
-        if(array_key_exists(session(MonsterLootController::$SESSION_SORT_KEY),MonsterLootController::$sortSelect)){
-            $sortBy = MonsterLootController::$sortSelect[session(MonsterLootController::$SESSION_SORT_KEY)]['sort'];
+        if(array_key_exists(request()->sortby,MonsterLootController::$sortSelect)){
+            $sortBy = MonsterLootController::$sortSelect[request()->sortby]['sort'];
         }
         $sortFlip = false;
         $sortedLoot = [];
@@ -82,6 +82,7 @@ class DropRepository
             $resort[] = $kills;
         }
 
+        //Put in session for graph when page is loaded
         session(['monster_stacked_loot' => $resort,'monster_loot' => $loot, 'monster_kc' => $killKc]);
         return (object) ['drops' => $resort, 'sortBy' => $sortBy, 'totalLootSum' => $totalLootSum, 'loot' => $loot];
     }
