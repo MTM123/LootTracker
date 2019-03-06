@@ -55,6 +55,8 @@ class UserController extends Controller
 
         $user = User::where('key', $key)->firstOrFail();
 
+        //dd($reques);
+
         $user->load(['kills' => function($query) use ($monsters) {
             $query->whereIn('monster_id', $monsters);
             $query->orderBy('created_at', 'DESC');
