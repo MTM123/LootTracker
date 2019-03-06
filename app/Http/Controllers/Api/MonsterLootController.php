@@ -23,20 +23,6 @@ class MonsterLootController extends Controller
 
     }
 
-    public function postFilter(Request $request)
-    {
-        if(array_key_exists($request->sortby, self::$sortSelect)){
-            $request->session()->put(MonsterLootController::$SESSION_SORT_KEY, $request->sortby);
-            $request->session()->save();
-        }else{
-            $request->session()->put(MonsterLootController::$SESSION_SORT_KEY, 0);
-            $request->session()->save();
-        }
-
-        return redirect()->back();
-    }
-
-
     public function post(Request $request)
     {
         return response()->json(session("monster_stacked_loot"));

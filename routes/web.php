@@ -20,8 +20,6 @@ Route::get('/api/get7dayloot', 'Api\LootController@get7DayLoot');
 
 Route::get('/settings', 'SettingsController@settingsPage')->name('page.setting');
 
-Route::post('/filter/post', 'Api\MonsterLootController@postFilter')->name('filter.sort');
-
 Route::group(['prefix' => 'users', 'namespace' => 'Users'], function() {
     Route::get('{key}', 'UserController@view')->name('users.view');
     Route::get('{key}/drops/{monsters?}', 'UserController@drops')->name('users.drops');

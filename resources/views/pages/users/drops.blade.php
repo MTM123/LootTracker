@@ -55,14 +55,14 @@ use App\Http\Controllers\Api\MonsterLootController;
                             <label>Sort</label>
                             <select name="sortby" class="form-control">
                                 @foreach(MonsterLootController::$sortSelect as $id => $v)
-                                    <option @if($id == session(MonsterLootController::$SESSION_SORT_KEY)) selected @endif value="{{ $id }}">{{ $v['name'] }}</option>
+                                    <option @if($id == request()->sortby) selected @endif value="{{ $id }}">{{ $v['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>From</label>
                             <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                <input type="text" name="from" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                                <input type="text" value="{{ request()->from }}" name="from" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
                                 <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -71,7 +71,7 @@ use App\Http\Controllers\Api\MonsterLootController;
                         <div class="form-group">
                             <label>To</label>
                             <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                <input type="text" name="to" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+                                <input type="text" value="{{ request()->to }}" name="to" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
                                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>

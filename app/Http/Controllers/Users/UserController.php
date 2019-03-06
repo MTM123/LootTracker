@@ -55,11 +55,17 @@ class UserController extends Controller
 
         $user = User::where('key', $key)->firstOrFail();
 
-        //dd($reques);
-
-        $user->load(['kills' => function($query) use ($monsters) {
+        $user->load(['kills' => function($query) use ($monsters, $request) {
             $query->whereIn('monster_id', $monsters);
             $query->orderBy('created_at', 'DESC');
+            if (isset($request->from) && !empty($request->from)){
+                $query->where('created_at', '>=' , Carbon::createFromTimestamp(strtotime($request->from)));
+            }
+
+            if (isset($request->to) && !empty($request->to)){
+                $query->where('created_at', '<=' , Carbon::createFromTimestamp(strtotime($request->to)));
+            }
+
         }, 'kills.monster', 'kills.items']);
 
         $drops = $this->dropRepository->sortDrops($user);
