@@ -36,6 +36,7 @@ class DropRepository
                     $stackedLoot[$items->id]->qty += $items->pivot->item_qty;
                     $stackedLoot[$items->id]->drop_times += 1;
                     $stackedLoot[$items->id]->total_price += $items->pivot->item_qty*$items->price;
+                    $stackedLoot[$items->id]->drop_rate = number_format($killKc / $stackedLoot[$items->id]->drop_times, 0, "","");
                 }else{
                     $stackedLoot[$items->id] = new \stdClass();
                     $stackedLoot[$items->id]->id = $items->item_id;
@@ -44,6 +45,7 @@ class DropRepository
                     $stackedLoot[$items->id]->qty = $items->pivot->item_qty;
                     $stackedLoot[$items->id]->drop_times = 1;
                     $stackedLoot[$items->id]->total_price = $items->pivot->item_qty*$items->price;
+                    $stackedLoot[$items->id]->drop_rate = number_format($killKc / $stackedLoot[$items->id]->drop_times, 0, "","");
                 }
             }
         }

@@ -31,7 +31,7 @@ use App\Http\Controllers\Api\MonsterLootController;
 
                     @foreach($drops->drops as $id => $item)
                         <div class="item_container">
-                            <div class="item" data-toggle="tooltip" data-placement="bottom" title="{{ $item->name }}">
+                            <div class="item" data-html="true" data-toggle="tooltip" data-placement="bottom" title="{{ $item->name }}</br>Droprate: 1/{{ $item->drop_rate }}">
                                 <span>{{ $item->qty }}</span>
                                 <img src="{{ env('CDN_URL') }}/media/{{ $item->id }}.png" />
                             </div>
@@ -50,10 +50,9 @@ use App\Http\Controllers\Api\MonsterLootController;
             <div class="card mb-3">
                 <div class="card-header">Filter</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('filter.sort') }}">
+                    <form method="GET">
                         <div class="form-group">
                             <label>Sort</label>
-                            @csrf
                             <select name="sortby" class="form-control">
                                 @foreach(MonsterLootController::$sortSelect as $id => $v)
                                     <option @if($id == session(MonsterLootController::$SESSION_SORT_KEY)) selected @endif value="{{ $id }}">{{ $v['name'] }}</option>
