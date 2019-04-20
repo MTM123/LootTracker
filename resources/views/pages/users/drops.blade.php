@@ -33,7 +33,7 @@ use App\Http\Controllers\Api\MonsterLootController;
                         <div class="item_container">
                             <div class="item" data-html="true" data-toggle="tooltip" data-placement="bottom" title="{{ $item->name }}</br>Droprate: 1/{{ $item->drop_rate }}">
                                 <span>{{ $item->qty }}</span>
-                                <img src="{{ env('CDN_URL') }}/media/{{ $item->id }}.png" />
+                                <img src="{{ env('CDN_URL') }}{{ $item->id }}.png" />
                             </div>
                             <div class="price-values">
                                 {{ $item->qty }} x {{ $item->price }}<br>
