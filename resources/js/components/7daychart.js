@@ -16,7 +16,7 @@ $(function() {
                 var template = `
                 <div class="item float-left" data-toggle="tooltip" >
                     <span>{QTY}</span>
-                    <img src="http://cdn.kulers.ml/media/{ID}.png" />
+                    <img src="https://static.runelite.net/cache/item/icon/{ID}.png" />
                 </div>
                 `;
                 var valuablesHtml = '';
