@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller
 {
-    const MAX_MONSTERS = 5;
+    const MAX_MONSTERS = 20;
 
     /**
      * @var DropRepository
