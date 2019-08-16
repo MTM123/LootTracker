@@ -55,6 +55,7 @@ class UserController extends Controller
 
         $user = User::where('key', $key)->firstOrFail();
 
+        /** @TODO: This needs to be fixed with like 30k kills its insanly */
         $user->load(['kills' => function($query) use ($monsters, $request) {
             $query->whereIn('monster_id', $monsters);
             $query->orderBy('created_at', 'DESC');

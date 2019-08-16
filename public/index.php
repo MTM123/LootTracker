@@ -1,6 +1,8 @@
 <?php
 
 ini_set("display_errors", 1);
+ini_set('memory_limit', '256M');
+ini_set('max_execution_time', 300);
 
 /**
  * Laravel - A PHP Framework For Web Artisans
