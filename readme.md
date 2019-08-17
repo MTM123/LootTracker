@@ -1,12 +1,9 @@
+Here are some screenshots of the page
 
--- CLAN PAGE --
-Place where u could see all clan member kills
+https://prnt.sc/otxhty
 
--- CRON --
-Run command "php artisan update:prices" every 2h
+https://prnt.sc/otxiqh
 
+https://prnt.sc/otxiw9
 
--- STATISTIC PAGE --
-See 1 weeks loot, day overlay by h and 1 month i guess
-
-Today loot from all monsters
+https://prnt.sc/otxj2p

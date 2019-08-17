@@ -67,7 +67,7 @@ $(function() {
     $(".user-monster-kill .list-group-item").click(function(event){
         var selectedMonsters = $(".select-filter").length;
 
-        if(selectedMonsters >= 5 && !$(event.target).hasClass("select-filter")){
+        if(selectedMonsters >= 20 && !$(event.target).hasClass("select-filter")){
             $.notify('You can\'t select more than 5', { allow_dismiss: false,timer: 1000,placement: {from: "bottom",align: "right"} });
             return;
         }

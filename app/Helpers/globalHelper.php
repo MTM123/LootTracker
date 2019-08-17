@@ -31,3 +31,13 @@ $GLOBALS['breadcrumb'] = new Breadcrumb();
 function Breadcrumb() {
     return $GLOBALS['breadcrumb'];
 }
+$GLOBALS['last_exec_time'] = microtime(true);
+$GLOBALS['last_exec_count'] = 0;
+function execTime() {
+    $bt = debug_backtrace();
+    $caller = array_shift($bt);
+    $GLOBALS['last_exec_count']++;
+    $time = ((microtime(true)-$GLOBALS['last_exec_time']));
+    echo "#".$GLOBALS['last_exec_count']." : ".number_format($time,7,".", "")." - ".str_replace("C:\\WebServer\\home\\kulersml\\public_html", '',$caller['file'])." : ".$caller['line']."<br>";
+    $GLOBALS['last_exec_time'] = microtime(true);
+}

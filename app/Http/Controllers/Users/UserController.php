@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller
 {
-    const MAX_MONSTERS = 5;
+    const MAX_MONSTERS = 20;
 
     /**
      * @var DropRepository
@@ -50,11 +50,14 @@ class UserController extends Controller
         if (count($monsters) > self::MAX_MONSTERS) {
             abort(404);
         }
-
         $monsters = array_unique($monsters);
 
         $user = User::where('key', $key)->firstOrFail();
 
+        /**
+         @TODO: This needs to be fixed with like 30k kills its insanely slow
+         Fixed little bit with chunk
+         */
         $user->load(['kills' => function($query) use ($monsters, $request) {
             $query->whereIn('monster_id', $monsters);
             $query->orderBy('created_at', 'DESC');
@@ -65,6 +68,11 @@ class UserController extends Controller
             if (isset($request->to) && !empty($request->to)){
                 $query->where('created_at', '<=' , Carbon::createFromTimestamp(strtotime($request->to)));
             }
+
+            //Make chunks to load faster
+            $query->chunk(6000, function($s) {
+
+            });
 
         }, 'kills.monster', 'kills.items']);
 

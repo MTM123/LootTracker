@@ -91,9 +91,15 @@ class DropRepository
     {
         $user = User::where('key', $key)->firstOrFail();
 
+
         $user->load(['kills' => function($query) {
             $query->whereBetween('created_at',[ Carbon::now()->startOfDay()->subDays(env("CONFIG_MAINPAGE_LOOT_HISTORY")), Carbon::now()->endOfDay()]);
             $query->orderBy('created_at', 'DESC');
+
+            $query->chunk(1000, function($s) {
+
+            });
+
         }, 'kills.items']);
 
         return $user;
