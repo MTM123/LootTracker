@@ -54,10 +54,6 @@ class UserController extends Controller
 
         $user = User::where('key', $key)->firstOrFail();
 
-        /**
-         @TODO: This needs to be fixed with like 30k kills its insanely slow
-         Fixed little bit with chunk
-         */
         $user->load(['kills' => function($query) use ($monsters, $request) {
             $query->whereIn('monster_id', $monsters);
             $query->orderBy('created_at', 'DESC');
@@ -69,12 +65,8 @@ class UserController extends Controller
                 $query->where('created_at', '<=' , Carbon::createFromTimestamp(strtotime($request->to)));
             }
 
-            //Make chunks to load faster
-            $query->chunk(6000, function($s) {
+        }, 'kills.monster']);
 
-            });
-
-        }, 'kills.monster', 'kills.items']);
 
         $drops = $this->dropRepository->sortDrops($user);
 

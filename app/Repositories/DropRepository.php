@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\Http\Controllers\Api\MonsterLootController;
+use App\Models\Item;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -20,6 +21,25 @@ class DropRepository
      */
     protected $_HOW_MANY_DROPS = 9;
 
+
+    private function itemIdList($kills) {
+
+        $list = [];
+        foreach ($kills as $loot) {
+            foreach ($loot->loot as $item) {
+                $list[] = $item['item_id'];
+            }
+        }
+        $list = array_unique($list);
+
+        $itemList = [];
+        foreach (Item::whereIn('item_id',$list)->get() as $map) {
+            $itemList[$map->item_id] = ["price" => $map->price, "name" => $map->name];
+        }
+
+        return $itemList;
+    }
+
     public function sortDrops($user) {
 
         $killKc = count($user->kills);
@@ -27,25 +47,28 @@ class DropRepository
         $stackedLoot = [];
         $totalLootSum = 0;
 
+        $itemDetails = $this->itemIdList($user->kills);
+
         foreach ($user->kills as $kills) {
-            foreach ($kills->items as $items) {
-                $loot[] = ['id' => $items->item_id, 'price' => $items->price, 'name' => $items->name, 'qty' => $items->pivot->item_qty];
-                $totalLootSum += $items->pivot->item_qty*$items->price;
+            foreach ($kills->loot as $items) {
+                $iID = $items['item_id'];
+                $loot[] = ['id' => $iID, 'price' => $itemDetails[$iID]['price'], 'name' => 'test', 'qty' => $items['item_qty']];
+                $totalLootSum += $items['item_qty']*$itemDetails[$iID]['price'];
                 //Stack loot
-                if (array_key_exists($items->id, $stackedLoot)) {
-                    $stackedLoot[$items->id]->qty += $items->pivot->item_qty;
-                    $stackedLoot[$items->id]->drop_times += 1;
-                    $stackedLoot[$items->id]->total_price += $items->pivot->item_qty*$items->price;
-                    $stackedLoot[$items->id]->drop_rate = number_format($killKc / $stackedLoot[$items->id]->drop_times, 0, "","");
+                if (array_key_exists($iID, $stackedLoot)) {
+                    $stackedLoot[$iID]->qty += $items['item_qty'];
+                    $stackedLoot[$iID]->drop_times += 1;
+                    $stackedLoot[$iID]->total_price += $items['item_qty']*$itemDetails[$iID]['price'];
+                    $stackedLoot[$iID]->drop_rate = number_format($killKc / $stackedLoot[$iID]->drop_times, 0, "","");
                 }else{
-                    $stackedLoot[$items->id] = new \stdClass();
-                    $stackedLoot[$items->id]->id = $items->item_id;
-                    $stackedLoot[$items->id]->price = $items->price;
-                    $stackedLoot[$items->id]->name = $items->name;
-                    $stackedLoot[$items->id]->qty = $items->pivot->item_qty;
-                    $stackedLoot[$items->id]->drop_times = 1;
-                    $stackedLoot[$items->id]->total_price = $items->pivot->item_qty*$items->price;
-                    $stackedLoot[$items->id]->drop_rate = number_format($killKc / $stackedLoot[$items->id]->drop_times, 0, "","");
+                    $stackedLoot[$iID] = new \stdClass();
+                    $stackedLoot[$iID]->id = $iID;
+                    $stackedLoot[$iID]->price = $itemDetails[$iID]['price'];
+                    $stackedLoot[$iID]->name = $itemDetails[$iID]['name'];
+                    $stackedLoot[$iID]->qty = $items['item_qty'];
+                    $stackedLoot[$iID]->drop_times = 1;
+                    $stackedLoot[$iID]->total_price = $items['item_qty']*$itemDetails[$iID]['price'];
+                    $stackedLoot[$iID]->drop_rate = number_format($killKc / $stackedLoot[$iID]->drop_times, 0, "","");
                 }
             }
         }
