@@ -6,7 +6,7 @@
 
 ##Current Java Integration
 ``LootTrackerKulersMl.java``
-<details>
+
 ```
 package net.runelite.client.plugins.loottracker;
    
@@ -122,20 +122,20 @@ package net.runelite.client.plugins.loottracker;
    	}
    }
 ```
-</details>
+
 
 ``LootTrackerPlugin.java``
-<details>
+
 ```
 @Inject
 private LootTrackerKulersMl ltapi;
 
 SwingUtilities.invokeLater(() -> ltapi.postLoot(ltapi.lootBuilder(client.getLocalPlayer().getName(),name,combat+"", entries)));
 ```
-</details>
+
 
 ``LootTrackerConfig.java``
-<details>
+
 ```
 @ConfigItem(
 			position = 0,
@@ -160,4 +160,3 @@ SwingUtilities.invokeLater(() -> ltapi.postLoot(ltapi.lootBuilder(client.getLoca
 		return "";
 	}
 ```
-</details>
